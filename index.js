@@ -8,8 +8,10 @@ var Promise = require('bluebird');
 
 /**
 * Initilizes object with its Project ID that represents a Kentico Cloud project.
-* @constructor
+* @constructor Delivery
 * @param {string} projectID Project ID, see details in the Kentico Cloud Developers Hub: https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id.
+* @example
+* var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53');
 */
 function Delivery(projectID) {
   this.projectID = projectID;
@@ -124,7 +126,7 @@ Delivery.prototype.getNeededValues = function(content, config) {
   if (typeof content !== 'object') {
     return Promise.reject('Content must be a categorized object.');
   }
-  
+
   var neededValues = {};
 
   Object.keys(config).forEach(function(keyContent, indexContent) {
