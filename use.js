@@ -10,7 +10,19 @@ project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
   return project.getNeededValues(data, {
     homepage: {
       system: ['id', 'name'],
-      elements: ['page_title', 'header']
+      elements: ['page_title', 'header', {
+        name: 'logos',
+        system: ['codename'],
+        elements: ['logo', 'url']
+      },
+      {
+        name: 'quotes',
+        system: ['type', 'last_modified'],
+        elements: ['name', 'photo']
+      },
+      {
+        name: 'newsletter'
+      }],
     },
     blog: {
       system: ['id', 'name'],

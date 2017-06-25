@@ -82,7 +82,16 @@ Delivery.prototype.categorizeContent = function(content, categories) {
 * //     },
 * //     elements: {
 * //       page_title: '...',
-* //       header: '...'
+* //       header: '...',
+* //       logos: [{
+* //         system: {
+* //           codename: '...'
+* //         },
+* //         elements: {
+* //           image: ['...'],
+* //           url: '...'
+* //         }
+* //       }]
 * //     }
 * //   }],
 * //   blog: [{
@@ -108,12 +117,16 @@ Delivery.prototype.categorizeContent = function(content, categories) {
 * // }
 * project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
 * .then(function (data) {
-*   return project.categorizeContent(data, ['hompage', 'blog_post']);
+*   return project.categorizeContent(data, ['hompage', 'blog']);
 * }).then(function (data) {
 *   return project.getNeededValues(data, {
 *     homepage: {
 *       system: ['id', 'name'],
-*       elements: ['page_title', 'header']
+*       elements: ['page_title', 'header', {
+*         name: 'logos',
+*         system: ['codename'],
+*         elements: ['image', 'url']
+*       }]
 *     },
 *     blog: {
 *       system: ['id', 'name'],
@@ -144,10 +157,41 @@ Delivery.prototype.getNeededValues = function(content, config) {
             }
 
             if (keyElement === 'elements') {
-              if (item[keyElement][itemElement].type === 'asset') {
+              if (typeof itemElement === 'string' && item[keyElement][itemElement].type === 'asset') {
                 tempObject[keyElement][itemElement] = [];
                 item[keyElement][itemElement].value.forEach((itemAsset, indexAsset) => {
                   tempObject[keyElement][itemElement].push(itemAsset.url);
+                });
+              } else if (typeof itemElement === 'object' && item[keyElement][itemElement['name']].type === 'modular_content') {
+                tempObject[keyElement][itemElement['name']] = [];
+
+                item[keyElement][itemElement['name']].value.forEach((itemModular, indexModular) => {
+                  var tempModularObject = {};
+
+                  Object.keys(itemElement).forEach(function(keyModularElement, indexModularElement) {
+                    if (itemElement[keyModularElement] instanceof Array) {
+                      tempModularObject[keyModularElement] = {};
+                      itemElement[keyModularElement].forEach((itemModularConfig, indexModularConfig) => {
+
+                        if (keyModularElement === 'system') {
+                          tempModularObject[keyModularElement][itemModularConfig] = content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig];
+                        }
+
+                        if (keyModularElement === 'elements') {
+                          if (content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig].type === 'asset') {
+                            tempModularObject[keyModularElement][itemModularConfig] = [];
+                            content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig].value.forEach((itemAsset, indexAsset) => {
+                              tempModularObject[keyModularElement][itemModularConfig].push(itemAsset.url);
+                            });
+                          } else {
+                            tempModularObject[keyModularElement][itemModularConfig] = content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig].value;
+                          }
+                        }
+                      });
+                    }
+
+                  });
+                  tempObject[keyElement][itemElement['name']].push(tempModularObject);
                 });
               } else {
                 tempObject[keyElement][itemElement] = item[keyElement][itemElement].value;

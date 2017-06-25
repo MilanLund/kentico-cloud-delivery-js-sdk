@@ -1,6 +1,7 @@
 # Delivery SDK for Javascript
 
-Unofficial SDK for the Delivery part of Kentico Cloud
+Unofficial SDK for the Delivery part of Kentico Cloud.
+Not production ready yet!
 
 # API
 
@@ -79,7 +80,16 @@ Returns values from content items according to given config
 //     },
 //     elements: {
 //       page_title: '...',
-//       header: '...'
+//       header: '...',
+//       logos: [{
+//         system: {
+//           codename: '...'
+//         },
+//         elements: {
+//           image: ['...'],
+//           url: '...'
+//         }
+//       }]
 //     }
 //   }],
 //   blog: [{
@@ -105,12 +115,16 @@ Returns values from content items according to given config
 // }
 project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
 .then(function (data) {
-  return project.categorizeContent(data, ['hompage', 'blog_post']);
+  return project.categorizeContent(data, ['hompage', 'blog']);
 }).then(function (data) {
   return project.getNeededValues(data, {
     homepage: {
       system: ['id', 'name'],
-      elements: ['page_title', 'header']
+      elements: ['page_title', 'header', {
+        name: 'logos',
+        system: ['codename'],
+        elements: ['image', 'url']
+      }]
     },
     blog: {
       system: ['id', 'name'],
