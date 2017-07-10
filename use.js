@@ -1,32 +1,21 @@
 var Delivery = require('./index');
 const util = require('util');
 
-var project = new Delivery('82574550-e45c-4219-abe9-677f600bcd53');
+var project = new Delivery('28f9fefa-3686-402a-9379-88bcda2cbd13');
 
-project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
+project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'])
 .then(function (data) {
-  return project.categorizeContent(data, ['homepage', 'blog']);
+  return project.categorizeContent(data, ['navigation', 'homepage']);
 }).then(function (data) {
   return project.getNeededValues(data, {
-    homepage: {
-      system: ['id', 'name'],
-      elements: ['page_title', 'header', {
-        name: 'logos',
-        system: ['codename'],
-        elements: ['logo', 'url']
-      },
-      {
-        name: 'quotes',
-        system: ['type', 'last_modified'],
-        elements: ['name', 'photo']
-      },
-      {
-        name: 'newsletter'
-      }],
+    navigation: {
+      elements: [{
+        name: 'navigation_items',
+        elements: ['label', 'is_hidden', 'songs']
+      }]
     },
-    blog: {
-      system: ['id', 'name'],
-      elements: ['page_title', 'publish_date', 'header_image']
+    homepage: {
+      elements: ['choice', 'date', 'songs', 'slug']
     }
   });
 })

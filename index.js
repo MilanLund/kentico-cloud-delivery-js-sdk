@@ -21,7 +21,7 @@ function Delivery(projectID) {
 /**
 * Returns promise with data specified by array of params.
 * @method getContentAsPromise
-* @param {array} params Url parameters that are used for requesting Kentico Cloud storage.
+* @param {array} params Filtering url parameters that are used for requesting Kentico Cloud storage. See deatils about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
 * @return {promise} Returns promise with array of responses for each passed parameter from the Kentico Cloud storage.
 * @example
 * // returns [{items: [...]}, {items: [...]}]
@@ -67,7 +67,8 @@ Delivery.prototype.categorizeContent = function(content, categories) {
 
 
 /**
-* Returns values from content items according to given config
+* Returns values from content items according to given config object.
+* Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug,Taxonomy
 * @method getNeededValues
 * @param {array} content Categorized content items returned from the "categorizeContent" method.
 * @param {object} config Model that descibes values you beed to get from the content parameter.
@@ -140,31 +141,59 @@ Delivery.prototype.getNeededValues = function(content, config) {
     return Promise.reject('Content must be a categorized object.');
   }
 
+  if (helpers.isEmptyObject(config)) {
+    return Promise.reject('Config must be provided.');
+  }
+
   var neededValues = {};
 
+  //Iterate categories
   Object.keys(config).forEach(function(keyContent, indexContent) {
     neededValues[keyContent] = [];
 
+    if (typeof content[keyContent] === 'undefined') {
+      return Promise.reject('Given category "'+ keyContent + '" seems to be missing an object from Kentico Cloud as it is missing the "items" property.');
+    }
+
+    //Iterate all items in category
     content[keyContent]['items'].forEach((item, index) => {
       let tempObject = {};
 
+      //Iterate categories in config object
       Object.keys(config[keyContent]).forEach(function(keyElement, indexElement) {
         tempObject[keyElement] = {};
-
+        //Iterate category properties in config object
         config[keyContent][keyElement].forEach((itemElement, indexElement) => {
+            //Check for errors
+            if (typeof item[keyElement][itemElement] === 'undefined' && typeof itemElement === 'string') {
+              return Promise.reject('The "'+ itemElement + '" property does not exist in the "' + keyContent + '.items.' + keyElement + '" object. Check your config.');
+            }
+
+            if (typeof item[keyElement][itemElement['name']] === 'undefined' && typeof itemElement === 'object') {
+              return Promise.reject('The "'+ itemElement['name'] + '" property does not exist in the "' + keyContent + '.items.' + keyElement + '" object. Check your config.');
+            }
+
+            //Get values according to config
             if (keyElement === 'system') {
+              //Copy value directly to the temp object
               tempObject[keyElement][itemElement] = item[keyElement][itemElement];
             }
 
             if (keyElement === 'elements') {
+
               if (typeof itemElement === 'string' && item[keyElement][itemElement].type === 'asset') {
-                tempObject[keyElement][itemElement] = [];
-                item[keyElement][itemElement].value.forEach((itemAsset, indexAsset) => {
-                  tempObject[keyElement][itemElement].push(itemAsset.url);
-                });
+                //Get urls of all assets in a single array and copy them to temp object
+                tempObject[keyElement][itemElement] = helpers.getArrayValues(tempObject[keyElement][itemElement], item[keyElement][itemElement], 'url');
+              }  else if (typeof itemElement === 'string' && (item[keyElement][itemElement].type === 'multiple_choice' || item[keyElement][itemElement].type === 'taxonomy')) {
+                  //Get codenames of all selected options in the multiple choice in a single array and copy them to temp object
+                  tempObject[keyElement][itemElement] = helpers.getArrayValues(tempObject[keyElement][itemElement], item[keyElement][itemElement], 'codename');
               } else if (typeof itemElement === 'object' && item[keyElement][itemElement['name']].type === 'modular_content') {
                 tempObject[keyElement][itemElement['name']] = [];
 
+                //Bring modular content vaules to the temp object
+                //The logic for modular content item is mostly the same as for regular items
+
+                //Iterate all names of modular items and find their values in the modular_content section
                 item[keyElement][itemElement['name']].value.forEach((itemModular, indexModular) => {
                   var tempModularObject = {};
 
@@ -172,28 +201,34 @@ Delivery.prototype.getNeededValues = function(content, config) {
                     if (itemElement[keyModularElement] instanceof Array) {
                       tempModularObject[keyModularElement] = {};
                       itemElement[keyModularElement].forEach((itemModularConfig, indexModularConfig) => {
+                        //Check for errors
+                        if (typeof content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig] === 'undefined') {
+                          return Promise.reject('The "'+ itemModularConfig + '" property does not exist in the "' + keyContent + '.modular_content.' + itemModular + '.' + keyModularElement + '" object. Check your config.');
+                        }
 
+                        //Get values according to config
                         if (keyModularElement === 'system') {
                           tempModularObject[keyModularElement][itemModularConfig] = content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig];
                         }
 
                         if (keyModularElement === 'elements') {
                           if (content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig].type === 'asset') {
-                            tempModularObject[keyModularElement][itemModularConfig] = [];
-                            content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig].value.forEach((itemAsset, indexAsset) => {
-                              tempModularObject[keyModularElement][itemModularConfig].push(itemAsset.url);
-                            });
+                            tempModularObject[keyModularElement][itemModularConfig] = helpers.getArrayValues(tempModularObject[keyModularElement][itemModularConfig], content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig], 'url');
+                          } else if (content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig].type === 'multiple_choice' ||
+                            content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig].type === 'taxonomy') {
+                              tempModularObject[keyModularElement][itemModularConfig] = helpers.getArrayValues(tempModularObject[keyModularElement][itemModularConfig], content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig], 'codename');
                           } else {
                             tempModularObject[keyModularElement][itemModularConfig] = content[keyContent]['modular_content'][itemModular][keyModularElement][itemModularConfig].value;
                           }
                         }
+
                       });
                     }
-
                   });
                   tempObject[keyElement][itemElement['name']].push(tempModularObject);
                 });
               } else {
+                //Copy value directly to the temp object. Covers content types: Text, Rich text, Number, Date & time, URL slug
                 tempObject[keyElement][itemElement] = item[keyElement][itemElement].value;
               }
             }
