@@ -27,7 +27,7 @@ Returns promise with data specified by array of params.
 
 **Parameters**
 
--   `params` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Url parameters that are used for requesting Kentico Cloud storage.
+-   `params` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Filtering url parameters that are used for requesting Kentico Cloud storage. See deatils about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
 
 **Examples**
 
@@ -61,7 +61,8 @@ Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### getNeededValues
 
-Returns values from content items according to given config
+Returns values from content items according to given config object.
+Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug,Taxonomy
 
 **Parameters**
 
@@ -101,7 +102,8 @@ Returns values from content items according to given config
 //       page_title: '...',
 //       publish_date: '...',
 //       header_image: ['...', '...']
-//     },{
+//     }
+//   },{
 //     system: {
 //       id: '...',
 //       name: '...'

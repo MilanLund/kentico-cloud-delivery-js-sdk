@@ -104,7 +104,8 @@ Delivery.prototype.categorizeContent = function(content, categories) {
 * //       page_title: '...',
 * //       publish_date: '...',
 * //       header_image: ['...', '...']
-* //     },{
+* //     }
+* //   },{
 * //     system: {
 * //       id: '...',
 * //       name: '...'
