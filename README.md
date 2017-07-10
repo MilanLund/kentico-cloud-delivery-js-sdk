@@ -14,11 +14,12 @@ Initilizes object with its Project ID that represents a Kentico Cloud project.
 **Parameters**
 
 -   `projectID` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Project ID, see details in the Kentico Cloud Developers Hub: <https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id>.
+-   `previewKey` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Preview API Key, see details in the Kentico Cloud Developers Hub: <https://developer.kenticocloud.com/docs/preview-content-via-api>.
 
 **Examples**
 
 ```javascript
-var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53');
+var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53', 'ew0KICAiYWxnIjo...QvV8puicXQ');
 ```
 
 ### getContentAsPromise
@@ -28,12 +29,13 @@ Returns promise with data specified by array of params.
 **Parameters**
 
 -   `params` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Filtering url parameters that are used for requesting Kentico Cloud storage. See deatils about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
+-   `isPreview` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Flag that controls whether only published or all items should be requested.
 
 **Examples**
 
 ```javascript
 // returns [{items: [...]}, {items: [...]}]
-project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'])
+project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
 ```
 
 Returns **[promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** Returns promise with array of responses for each passed parameter from the Kentico Cloud storage.
@@ -51,7 +53,7 @@ Returns object where each content item is assigned to one category according to 
 
 ```javascript
 // returns {navigation: {items: [...]}, homepage: {items: [...]}}
-project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'])
+project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
 .then(function (data) {
   return project.categorizeContent(data, ['navigation', 'homepage']);
 })
@@ -124,7 +126,7 @@ Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Ass
 //      next_page: '...'
 //    }
 // }
-project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
+project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'], false)
 .then(function (data) {
   return project.categorizeContent(data, ['hompage', 'blog']);
 }).then(function (data) {

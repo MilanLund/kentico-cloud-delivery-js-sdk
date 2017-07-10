@@ -10,11 +10,13 @@ var Promise = require('bluebird');
  * Initilizes object with its Project ID that represents a Kentico Cloud project.
  * @constructor Delivery
  * @param {string} projectID Project ID, see details in the Kentico Cloud Developers Hub: https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id.
+ * @param {string} previewKey Preview API Key, see details in the Kentico Cloud Developers Hub: https://developer.kenticocloud.com/docs/preview-content-via-api.
  * @example
- * var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53');
+ * var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53', 'ew0KICAiYWxnIjo...QvV8puicXQ');
  */
-function Delivery(projectID) {
+function Delivery(projectID, previewKey) {
   this.projectID = projectID;
+  this.previewKey = typeof previewKey === 'undefined' ? null : previewKey;
 };
 
 
@@ -22,13 +24,14 @@ function Delivery(projectID) {
  * Returns promise with data specified by array of params.
  * @method getContentAsPromise
  * @param {array} params Filtering url parameters that are used for requesting Kentico Cloud storage. See deatils about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
+ * @param {boolean} isPreview Flag that controls whether only published or all items should be requested.
  * @return {promise} Returns promise with array of responses for each passed parameter from the Kentico Cloud storage.
  * @example
  * // returns [{items: [...]}, {items: [...]}]
- * project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'])
+ * project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
  */
-Delivery.prototype.getContentAsPromise = function(params) {
-  var options = helpers.getFullDeliveryUrls(params, this.projectID);
+Delivery.prototype.getContentAsPromise = function(params, isPreview) {
+  var options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview);
 
   return Promise.map(options, (item) => {
     return requestPromise(item);
@@ -44,7 +47,7 @@ Delivery.prototype.getContentAsPromise = function(params) {
  * @return {object} Returns object where contect items are property values and categories are property name oereder by their position in given arrays.
  * @example
  * // returns {navigation: {items: [...]}, homepage: {items: [...]}}
- * project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'])
+ * project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
  * .then(function (data) {
  *   return project.categorizeContent(data, ['navigation', 'homepage']);
  * })
@@ -126,7 +129,7 @@ Delivery.prototype.categorizeContent = function(content, categories) {
  * //      next_page: '...'
  * //    }
  * // }
- * project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
+ * project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'], false)
  * .then(function (data) {
  *   return project.categorizeContent(data, ['hompage', 'blog']);
  * }).then(function (data) {
@@ -149,7 +152,7 @@ Delivery.prototype.categorizeContent = function(content, categories) {
  */
 Delivery.prototype.getValues = function(content, config) {
 
-  /* This is a monster method that interates through the whole response and transforms it according to given config */
+  /* This is a monster method that iterates through the whole response and transforms it according to given config */
 
   if (typeof content !== 'object') {
     return Promise.reject('Content must be a categorized object.');

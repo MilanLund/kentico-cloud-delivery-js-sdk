@@ -10,16 +10,27 @@ module.exports = {
     });
   },
 
-  getFullDeliveryUrls: (params, projectID) => {
+  getFullDeliveryUrls: (params, projectID, previewKey, isPreview) => {
     var options = [];
 
-    params.forEach((item) => {
-      options.push({
-        uri: settings.getDeliveryUrl(projectID) + item,
-        json: true
+    if (isPreview && previewKey !== null) {
+      params.forEach((item) => {
+        options.push({
+          uri: settings.getDeliveryUrl(projectID, isPreview) + item,
+          json: true,
+          headers: {
+            Authorization: 'Bearer ' + previewKey
+          }
+        });
       });
-    });
-
+    } else {
+      params.forEach((item) => {
+        options.push({
+          uri: settings.getDeliveryUrl(projectID, isPreview) + item,
+          json: true
+        });
+      });
+    }
     return options;
   },
 

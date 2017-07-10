@@ -1,5 +1,9 @@
 module.exports = {
-  getDeliveryUrl: (projectID) => {
-    return 'https://deliver.kenticocloud.com/' + projectID + '/items';
+  getDeliveryUrl: (projectID, isPreview) => {
+    if (isPreview) {
+      return 'https://preview-deliver.kenticocloud.com/' + projectID + '/items';
+    } else {
+      return 'https://deliver.kenticocloud.com/' + projectID + '/items';
+    }
   }
 };
