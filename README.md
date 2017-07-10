@@ -136,4 +136,4 @@ project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
 );
 ```
 
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns content items values that are positioned according to the config parameter.
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns content items values that are structured according to the config parameter.

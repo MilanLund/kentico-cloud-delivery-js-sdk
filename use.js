@@ -7,7 +7,7 @@ project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage']
 .then(function (data) {
   return project.categorizeContent(data, ['navigation', 'homepage']);
 }).then(function (data) {
-  return project.getNeededValues(data, {
+  return project.getValues(data, {
     navigation: {
       elements: [{
         name: 'navigation_items',
@@ -16,6 +16,21 @@ project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage']
     },
     homepage: {
       elements: ['choice', 'date', 'songs', 'slug']
+    }
+  });
+})
+.then(function (data) {
+  console.log(util.inspect(data, false, null));
+});
+
+project.getContentAsPromise(['?system.type=navigation_item&limit=1&skip=1'])
+.then(function (data) {
+  return project.categorizeContent(data, ['navigationItem']);
+}).then(function (data) {
+  return project.getValues(data, {
+    navigationItem: {
+      elements: ['label'],
+      pagination: true
     }
   });
 })
