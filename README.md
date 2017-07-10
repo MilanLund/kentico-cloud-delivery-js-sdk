@@ -74,52 +74,61 @@ Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Ass
 ```javascript
 // Returns
 // {
-//   homepage: [{
-//     system: {
-//       id: '...',
-//       name: '...'
-//     },
-//     elements: {
-//       page_title: '...',
-//       header: '...',
-//       logos: [{
-//         system: {
-//           codename: '...'
-//         },
-//         elements: {
-//           image: ['...'],
-//           url: '...'
-//         }
-//       }]
+//   homepage: {
+//     items: [{
+//       system: {
+//         id: '...',
+//         name: '...'
+//       },
+//       elements: {
+//         page_title: '...',
+//         header: '...',
+//         logos: [{
+//           system: {
+//             codename: '...'
+//           },
+//           elements: {
+//             image: ['...'],
+//             url: '...'
+//           }
+//         }]
+//       }
 //     }
 //   }],
-//   blog: [{
-//     system: {
-//       id: '...',
-//       name: '...'
-//     },
-//     elements: {
-//       page_title: '...',
-//       publish_date: '...',
-//       header_image: ['...', '...']
-//     }
-//   },{
-//     system: {
-//       id: '...',
-//       name: '...'
-//     },
-//     elements: {
-//       page_title: '...',
-//       publish_date: '...',
-//       header_image: ['...', '...']
-//     }
-//   }]
+//   blog: {
+//     items: [{
+//       system: {
+//         id: '...',
+//         name: '...'
+//       },
+//       elements: {
+//         page_title: '...',
+//         publish_date: '...',
+//         header_image: ['...', '...']
+//       }
+//     },{
+//       system: {
+//         id: '...',
+//         name: '...'
+//       },
+//       elements: {
+//         page_title: '...',
+//         publish_date: '...',
+//         header_image: ['...', '...']
+//       }
+//    }],
+//    pagination: {
+//      skip: ...,
+//      limit: ...,
+//      count: ...,
+//      next_page: '...'
+//    }
 // }
 project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
 .then(function (data) {
   return project.categorizeContent(data, ['hompage', 'blog']);
 }).then(function (data) {
-  return project.getNeededValues(data, {
+  return project.getValues(data, {
     homepage: {
       system: ['id', 'name'],
       elements: ['page_title', 'header', {
@@ -130,7 +139,8 @@ project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'])
     },
     blog: {
       system: ['id', 'name'],
-      elements: ['page_title', 'publish_date', 'header_image']
+      elements: ['page_title', 'publish_date', 'header_image'],
+      pagination: true
     }
   });
 );
