@@ -5,12 +5,12 @@ Not production ready yet!
 
 ## About
 
-The idea behind this SDK is to
+The idea behind this SDK is to:
 
--   Get complete content from the Kentico Cloud storage easily.
--   Simplify content in the response to be able to operate with them easily.
+-   Get complete content for current view from the Kentico Cloud storage easily.
+-   Simplify content in the response to be able to operate and render the content easily.
 
-All of this happens in a single Promise chain in 3 steps
+All of this happens in a single Promise chain in 3 steps:
 
 1. Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response.
 2. Name data items for each request with use of the `categorizeContent` method so you can operate with the content easily.
