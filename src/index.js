@@ -6,7 +6,7 @@ const helpers = require('./helpers'),
 'use strict';
 
 /**
- * Initilizes object with its Project ID that represents a Kentico Cloud project.
+ * Initilizes object with its Project ID and Preview API Key that represents a Kentico Cloud project.
  * @constructor Delivery
  * @param {string} projectID Project ID, see details in the Kentico Cloud Developers Hub: https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id.
  * @param {string} previewKey Preview API Key, see details in the Kentico Cloud Developers Hub: https://developer.kenticocloud.com/docs/preview-content-via-api.
@@ -43,7 +43,7 @@ Delivery.prototype.getContent = function(params, isPreview) {
  * @method categorizeContent
  * @param {array} content Content items returned from the "getContent" method.
  * @param {array} categories Names of categories.
- * @return {object} Returns object where contect items are property values and categories are property name oereder by their position in given arrays.
+ * @return {object} Returns object where content items are property values and categories are property names oreder by their position in given arrays.
  * @example
  * // returns {navigation: {items: [...]}, homepage: {items: [...]}}
  * project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
@@ -70,10 +70,10 @@ Delivery.prototype.categorizeContent = function(content, categories) {
 
 /**
  * Returns values from content items according to given config object.
- * Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and Localization.
+ * Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
  * @method getValues
  * @param {array} content Categorized content items returned from the "categorizeContent" method.
- * @param {object} config Model that descibes values you beed to get from the content parameter.
+ * @param {object} config Model that descibes values you need to get from the data provided through content parameter.
  * @return {object} Returns content items values that are structured according to the config parameter.
  * @example
  * // Returns

@@ -28,7 +28,7 @@ npm install kentico-cloud-delivery-js-sdk
 
 ## Delivery
 
-Initilizes object with its Project ID that represents a Kentico Cloud project.
+Initilizes object with its Project ID and Preview API Key that represents a Kentico Cloud project.
 
 **Parameters**
 
@@ -78,17 +78,17 @@ project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
 })
 ```
 
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns object where contect items are property values and categories are property name oereder by their position in given arrays.
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns object where content items are property values and categories are property names oreder by their position in given arrays.
 
 ### getValues
 
 Returns values from content items according to given config object.
-Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and Localization.
+Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
 
 **Parameters**
 
 -   `content` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Categorized content items returned from the "categorizeContent" method.
--   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Model that descibes values you beed to get from the content parameter.
+-   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Model that descibes values you need to get from the data provided through content parameter.
 
 **Examples**
 
