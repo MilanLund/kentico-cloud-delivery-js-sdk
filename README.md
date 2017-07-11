@@ -1,7 +1,26 @@
 # Delivery SDK for Javascript
 
-Unofficial SDK for the Delivery part of Kentico Cloud.
+Unofficial SDK for the Kentico Cloud Delivery API.
 Not production ready yet!
+
+## About
+
+The idea behind this SDK is to:
+
+-   Get complete content for current view from the Kentico Cloud storage easily.
+-   Simplify content in the response to be able to operate and render the content easily.
+
+All of this happens in a single Promise chain in 3 steps:
+
+1.  Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response.
+2.  Name data items for each request with use of the `categorizeContent` method so you can operate with the content easily.
+3.  Simplify the content by getting only values from the complex response.
+
+## Installation
+
+```sh
+npm install kentico-cloud-delivery-js-sdk
+```
 
 # API
 
@@ -22,7 +41,7 @@ Initilizes object with its Project ID that represents a Kentico Cloud project.
 var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53', 'ew0KICAiYWxnIjo...QvV8puicXQ');
 ```
 
-### getContentAsPromise
+### getContent
 
 Returns promise with data specified by array of params.
 
@@ -35,7 +54,7 @@ Returns promise with data specified by array of params.
 
 ```javascript
 // returns [{items: [...]}, {items: [...]}]
-project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
+project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
 ```
 
 Returns **[promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** Returns promise with array of responses for each passed parameter from the Kentico Cloud storage.
@@ -46,14 +65,14 @@ Returns object where each content item is assigned to one category according to 
 
 **Parameters**
 
--   `content` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Content items returned from the "getContentAsPromise" method.
+-   `content` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Content items returned from the "getContent" method.
 -   `categories` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Names of categories.
 
 **Examples**
 
 ```javascript
 // returns {navigation: {items: [...]}, homepage: {items: [...]}}
-project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
+project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
 .then(function (data) {
   return project.categorizeContent(data, ['navigation', 'homepage']);
 })
@@ -61,10 +80,10 @@ project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage']
 
 Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns object where contect items are property values and categories are property name oereder by their position in given arrays.
 
-### getNeededValues
+### getValues
 
 Returns values from content items according to given config object.
-Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug,Taxonomy
+Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and Localization.
 
 **Parameters**
 
@@ -126,7 +145,7 @@ Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Ass
 //      next_page: '...'
 //    }
 // }
-project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'], false)
+project.getContent(['?system.type=home', '?system.type=blog_post'], false)
 .then(function (data) {
   return project.categorizeContent(data, ['hompage', 'blog']);
 }).then(function (data) {
