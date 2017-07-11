@@ -18,11 +18,11 @@ describe('Delivery', function() {
     });
 
     it('promise should be fulfilled', function() {
-      return Promise.resolve(project.getContentAsPromise(['?system.type=home'])).should.eventually.fulfilled;
+      return Promise.resolve(project.getContent(['?system.type=home'])).should.eventually.fulfilled;
     });
 
     it('should get content from homepage with promise and check if not empty ', function() {
-      return Promise.resolve(project.getContentAsPromise(['?system.type=home']).then(function(data) {return data[0].items})).should.not.eventually.have.length(0);
+      return Promise.resolve(project.getContent(['?system.type=home']).then(function(data) {return data[0].items})).should.not.eventually.have.length(0);
     });
   });
 });

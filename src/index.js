@@ -21,7 +21,7 @@ function Delivery(projectID, previewKey) {
 
 /**
  * Returns promise with data specified by array of params.
- * @method getContentAsPromise
+ * @method getContent
  * @param {array} params Filtering url parameters that are used for requesting Kentico Cloud storage. See deatils about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
  * @param {boolean} isPreview Flag that controls whether only published or all items should be requested.
  * @return {promise} Returns promise with array of responses for each passed parameter from the Kentico Cloud storage.
@@ -29,7 +29,7 @@ function Delivery(projectID, previewKey) {
  * // returns [{items: [...]}, {items: [...]}]
  * project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
  */
-Delivery.prototype.getContentAsPromise = function(params, isPreview) {
+Delivery.prototype.getContent = function(params, isPreview) {
   var options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview);
 
   return Promise.map(options, (item) => {
@@ -71,7 +71,7 @@ Delivery.prototype.categorizeContent = function(content, categories) {
 /**
  * Returns values from content items according to given config object.
  * Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug,Taxonomy
- * @method getNeededValues
+ * @method getValues
  * @param {array} content Categorized content items returned from the "categorizeContent" method.
  * @param {object} config Model that descibes values you beed to get from the content parameter.
  * @return {object} Returns content items values that are structured according to the config parameter.

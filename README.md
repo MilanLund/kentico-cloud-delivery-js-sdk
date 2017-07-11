@@ -1,7 +1,26 @@
 # Delivery SDK for Javascript
 
-Unofficial SDK for the Delivery part of Kentico Cloud.
+Unofficial SDK for the Kentico Cloud Delivery API.
 Not production ready yet!
+
+## About
+
+The idea behind this SDK is to
+
+-   Get complete content from the Kentico Cloud storage easily.
+-   Simplify content in the response to be able to operate with them easily.
+
+All of this happens in a single Promise chain in 3 steps
+
+1. Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response.
+2. Name data items for each request with use of the `categorizeContent` method so you can operate with the content easily.
+3. Simplify the content by getting only values from the complex response.
+
+## Installation
+
+```sh
+npm install kentico-cloud-delivery-js-sdk
+```
 
 # API
 
@@ -22,7 +41,7 @@ Initilizes object with its Project ID that represents a Kentico Cloud project.
 var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53', 'ew0KICAiYWxnIjo...QvV8puicXQ');
 ```
 
-### getContentAsPromise
+### getContent
 
 Returns promise with data specified by array of params.
 
