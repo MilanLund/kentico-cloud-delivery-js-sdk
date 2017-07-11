@@ -27,7 +27,7 @@ function Delivery(projectID, previewKey) {
  * @return {promise} Returns promise with array of responses for each passed parameter from the Kentico Cloud storage.
  * @example
  * // returns [{items: [...]}, {items: [...]}]
- * project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
+ * project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
  */
 Delivery.prototype.getContent = function(params, isPreview) {
   var options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview);
@@ -41,12 +41,12 @@ Delivery.prototype.getContent = function(params, isPreview) {
 /**
  * Returns object where each content item is assigned to one category according to their position in given arrays. Number of content items and categories must match.
  * @method categorizeContent
- * @param {array} content Content items returned from the "getContentAsPromise" method.
+ * @param {array} content Content items returned from the "getContent" method.
  * @param {array} categories Names of categories.
  * @return {object} Returns object where contect items are property values and categories are property name oereder by their position in given arrays.
  * @example
  * // returns {navigation: {items: [...]}, homepage: {items: [...]}}
- * project.getContentAsPromise(['?system.type=navigation', '?system.type=homepage'], false)
+ * project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
  * .then(function (data) {
  *   return project.categorizeContent(data, ['navigation', 'homepage']);
  * })
@@ -70,7 +70,7 @@ Delivery.prototype.categorizeContent = function(content, categories) {
 
 /**
  * Returns values from content items according to given config object.
- * Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug,Taxonomy
+ * Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and Localization.
  * @method getValues
  * @param {array} content Categorized content items returned from the "categorizeContent" method.
  * @param {object} config Model that descibes values you beed to get from the content parameter.
@@ -128,7 +128,7 @@ Delivery.prototype.categorizeContent = function(content, categories) {
  * //      next_page: '...'
  * //    }
  * // }
- * project.getContentAsPromise(['?system.type=home', '?system.type=blog_post'], false)
+ * project.getContent(['?system.type=home', '?system.type=blog_post'], false)
  * .then(function (data) {
  *   return project.categorizeContent(data, ['hompage', 'blog']);
  * }).then(function (data) {
