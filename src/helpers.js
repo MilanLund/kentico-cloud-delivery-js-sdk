@@ -1,13 +1,22 @@
-var request = require('request');
-var requestPromise = require('request-promise');
-var Promise = require('bluebird');
-var settings = require('./settings');
+const request = require('request'),
+      requestPromise = require('request-promise'),
+      Promise = require('bluebird');
 
-module.exports = {
+'use strict';
+
+var helpers = {
   getRawData: (options) => {
     return Promise.map(options, (item) => {
       return requestPromise(item);
     });
+  },
+
+  getDeliveryUrl: (projectID, isPreview) => {
+    if (isPreview) {
+      return 'https://preview-deliver.kenticocloud.com/' + projectID + '/items';
+    } else {
+      return 'https://deliver.kenticocloud.com/' + projectID + '/items';
+    }
   },
 
   getFullDeliveryUrls: (params, projectID, previewKey, isPreview) => {
@@ -16,7 +25,7 @@ module.exports = {
     if (isPreview && previewKey !== null) {
       params.forEach((item) => {
         options.push({
-          uri: settings.getDeliveryUrl(projectID, isPreview) + item,
+          uri: helpers.getDeliveryUrl(projectID, isPreview) + item,
           json: true,
           headers: {
             Authorization: 'Bearer ' + previewKey
@@ -26,7 +35,7 @@ module.exports = {
     } else {
       params.forEach((item) => {
         options.push({
-          uri: settings.getDeliveryUrl(projectID, isPreview) + item,
+          uri: helpers.getDeliveryUrl(projectID, isPreview) + item,
           json: true
         });
       });
@@ -70,3 +79,5 @@ module.exports = {
     return true;
   }
 }
+3
+module.exports = helpers;

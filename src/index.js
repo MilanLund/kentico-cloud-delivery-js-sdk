@@ -1,8 +1,7 @@
-var settings = require('./settings');
-var helpers = require('./helpers');
-var request = require('request');
-var requestPromise = require('request-promise');
-var Promise = require('bluebird');
+const helpers = require('./helpers'),
+      request = require('request'),
+      requestPromise = require('request-promise'),
+      Promise = require('bluebird');
 
 'use strict';
 

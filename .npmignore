@@ -60,3 +60,5 @@ typings/
 # Test files
 use.js
 test/
+gulpfile.js
+.eslintrc

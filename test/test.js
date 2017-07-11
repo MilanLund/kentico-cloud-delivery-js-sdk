@@ -1,6 +1,6 @@
 var chai = require("chai");
 var chaiAsPromised = require("chai-as-promised");
-var Delivery = require('../index');
+var Delivery = require('../src/index');
 
 var expect = chai.expect;
 var assert = chai.assert;
