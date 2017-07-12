@@ -25,6 +25,8 @@ npm install kentico-cloud-delivery-js-sdk
 ## Start
 
 ```javascript
+var Delivery = require('kentico-cloud-delivery-js-sdk');
+
 var project = new Delivery(your_project_id, your_project_preview_API_key);
 
 project.getContent(array_of_endpoint_parameters, flag_whether_you_need_preview_items)
@@ -36,11 +38,11 @@ project.getContent(array_of_endpoint_parameters, flag_whether_you_need_preview_i
 ```
 
 Some method parameters need explanation:
--   [link](#your_project_id)your_project_id
--   [link](#your_project_preview_API_key)your_project_preview_API_key
--   [link](#array_of_endpoint_parameters)array_of_endpoint_parameters
--   [link](#flag_whether_you_need_preview_items)flag_whether_you_need_preview_items
--   [link](#object_containing_config_of_simplified_content)object_containing_config_of_simplified_content
+-   [your_project_id](#your_project_id)
+-   [your_project_preview_API_key](#your_project_preview_API_key)
+-   [array_of_endpoint_parameters](#array_of_endpoint_parameters)
+-   [flag_whether_you_need_preview_items](#flag_whether_you_need_preview_items)
+-   [object_containing_config_of_simplified_content](#object_containing_config_of_simplified_content)
 
 ### <a name="your_project_id"></a>your_project_id
 

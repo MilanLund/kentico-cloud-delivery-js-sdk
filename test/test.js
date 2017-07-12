@@ -1,5 +1,5 @@
-var chai = require("chai");
-var chaiAsPromised = require("chai-as-promised");
+var chai = require('chai');
+var chaiAsPromised = require('chai-as-promised');
 var Delivery = require('../src/index');
 
 var expect = chai.expect;
