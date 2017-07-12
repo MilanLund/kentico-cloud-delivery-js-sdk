@@ -29,9 +29,9 @@ var Delivery = require('kentico-cloud-delivery-js-sdk');
 var project = new Delivery(your_project_id, your_project_preview_API_key);
 
 project.getContent(array_of_endpoint_parameters, flag_whether_you_need_preview_items) // Step 1
-.then(function (data) {
+.then((data) => {
   return project.categorizeContent(data, array_of_category_names); // Step 2
-}).then(function (data) {
+}).then((data) => {
   return project.getValues(data, object_containing_config_of_simplified_content); // Step 3
 }).then(console.log); // See result
 ```
