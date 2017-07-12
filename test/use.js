@@ -16,7 +16,7 @@ project.getContent(['?system.type=homepage'])
 .then(function (data) {
   console.log(util.inspect(data, false, null));
 });
-/*
+
 project.getContent(['?system.type=navigation&language=en'], true)
 .then(function (data) {
   return project.categorizeContent(data, ['nav']);
@@ -33,4 +33,4 @@ project.getContent(['?system.type=navigation&language=en'], true)
 })
 .then(function (data) {
   console.log(util.inspect(data, false, null));
-});*/
+});

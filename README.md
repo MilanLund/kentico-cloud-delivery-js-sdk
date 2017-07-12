@@ -105,7 +105,7 @@ Returns object where each content item is assigned to one category according to 
 ```javascript
 // returns {navigation: {items: [...]}, homepage: {items: [...]}}
 project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
-.then(function (data) {
+.then((data) => {
   return project.categorizeContent(data, ['navigation', 'homepage']);
 })
 ```
@@ -180,9 +180,9 @@ Data of a Modular content which is part of a Rich text element is returned as a 
 //    }
 // }
 project.getContent(['?system.type=home', '?system.type=blog_post'], false)
-.then(function (data) {
+.then((data) => {
   return project.categorizeContent(data, ['hompage', 'blog']);
-}).then(function (data) {
+}).then((data) => {
   return project.getValues(data, {
     homepage: {
       system: ['id', 'name'],

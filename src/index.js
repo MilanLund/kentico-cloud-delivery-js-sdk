@@ -13,9 +13,11 @@ const helpers = require('./helpers'),
  * @example
  * var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53', 'ew0KICAiYWxnIjo...QvV8puicXQ');
  */
-function Delivery(projectID, previewKey) {
-  this.projectID = projectID;
-  this.previewKey = typeof previewKey === 'undefined' ? null : previewKey;
+class Delivery {
+  constructor (projectID, previewKey) {
+    this.projectID = projectID;
+    this.previewKey = typeof previewKey === 'undefined' ? null : previewKey;
+  }
 };
 
 
@@ -29,7 +31,7 @@ function Delivery(projectID, previewKey) {
  * // returns [{items: [...]}, {items: [...]}]
  * project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
  */
-Delivery.prototype.getContent = function(params, isPreview) {
+Delivery.prototype.getContent = function (params, isPreview) {
   var options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview);
 
   return Promise.map(options, (item) => {
@@ -47,11 +49,11 @@ Delivery.prototype.getContent = function(params, isPreview) {
  * @example
  * // returns {navigation: {items: [...]}, homepage: {items: [...]}}
  * project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
- * .then(function (data) {
+ * .then((data) => {
  *   return project.categorizeContent(data, ['navigation', 'homepage']);
  * })
  */
-Delivery.prototype.categorizeContent = function(content, categories) {
+Delivery.prototype.categorizeContent = (content, categories) => {
   if (content.length !== categories.length) {
     return Promise.reject('Number of content items and categories must be equal. Current number of content items is ' + content.length + '. Current number of categories is ' + categories.length + '.');
   }
@@ -131,9 +133,9 @@ Delivery.prototype.categorizeContent = function(content, categories) {
  * //    }
  * // }
  * project.getContent(['?system.type=home', '?system.type=blog_post'], false)
- * .then(function (data) {
+ * .then((data) => {
  *   return project.categorizeContent(data, ['hompage', 'blog']);
- * }).then(function (data) {
+ * }).then((data) => {
  *   return project.getValues(data, {
  *     homepage: {
  *       system: ['id', 'name'],
@@ -151,7 +153,7 @@ Delivery.prototype.categorizeContent = function(content, categories) {
  *   });
  * );
  */
-Delivery.prototype.getValues = function(content, config) {
+Delivery.prototype.getValues = (content, config) => {
 
   /* This is a monster method that iterates through the whole response and transforms it according to given config */
 
@@ -166,7 +168,7 @@ Delivery.prototype.getValues = function(content, config) {
   var neededValues = {};
 
   //Iterate categories
-  Object.keys(config).forEach(function(keyContent, indexContent) {
+  Object.keys(config).forEach((keyContent, indexContent) => {
     neededValues[keyContent] = {};
     neededValues[keyContent]['items'] = [];
 
@@ -179,7 +181,7 @@ Delivery.prototype.getValues = function(content, config) {
       let tempObject = {};
 
       //Iterate categories in config object
-      Object.keys(config[keyContent]).forEach(function(keyElement, indexElement) {
+      Object.keys(config[keyContent]).forEach((keyElement, indexElement) => {
 
         //Add pagination
         if (keyElement === 'pagination' && config[keyContent][keyElement] === true && typeof neededValues[keyContent]['pagination'] === 'undefined') {
@@ -229,7 +231,7 @@ Delivery.prototype.getValues = function(content, config) {
                 item[keyElement][itemElement['name']].value.forEach((itemModular, indexModular) => {
                   var tempModularObject = {};
 
-                  Object.keys(itemElement).forEach(function(keyModularElement, indexModularElement) {
+                  Object.keys(itemElement).forEach((keyModularElement, indexModularElement) => {
                     if (itemElement[keyModularElement] instanceof Array) {
                       tempModularObject[keyModularElement] = {};
                       itemElement[keyModularElement].forEach((itemModularConfig, indexModularConfig) => {
