@@ -12,11 +12,15 @@ project.getContent(['?system.type=homepage'])
       elements: ['rich_text']
     }
   });
+}).then(function (data) {
+  data = project.resolveModularContentInRichText(data, 'homepage', 'rich_text', 'denicek', '<div class="test">{elements.label}</div><span>{system.id}</span>');
+  data = project.resolveModularContentInRichText(data, 'homepage', 'rich_text', 'main_navigation', '<div class="test">{elements.slug}</div><span>{system.name}</span>');
+  return data;
 })
 .then(function (data) {
   console.log(util.inspect(data, false, null));
 });
-
+/*
 project.getContent(['?system.type=navigation&language=en'], true)
 .then(function (data) {
   return project.categorizeContent(data, ['nav']);
@@ -33,4 +37,4 @@ project.getContent(['?system.type=navigation&language=en'], true)
 })
 .then(function (data) {
   console.log(util.inspect(data, false, null));
-});
+});*/

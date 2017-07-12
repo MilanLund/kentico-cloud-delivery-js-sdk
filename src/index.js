@@ -1,7 +1,8 @@
 const helpers = require('./helpers'),
       request = require('request'),
       requestPromise = require('request-promise'),
-      Promise = require('bluebird');
+      Promise = require('bluebird'),
+      cheerio = require('cheerio');
 
 'use strict';
 
@@ -76,7 +77,7 @@ Delivery.prototype.categorizeContent = (content, categories) => {
  * For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a <a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
  * Data of a Modular content which is part of a Rich text element is returned as a <script> tag with data in the JSON format inside. The <script> tag is inserted after the <object> tag which represents position of the Modular content in the default Kentico CLoud response.
  * @method getValues
- * @param {array} content Categorized content items returned from the "categorizeContent" method.
+ * @param {object} content Categorized content items returned from the "categorizeContent" method.
  * @param {object} config Model that descibes values you need to get from the data provided through content parameter.
  * @return {object} Returns content items values that are structured according to the config parameter.
  * @example
@@ -275,5 +276,61 @@ Delivery.prototype.getValues = (content, config) => {
   return neededValues;
 };
 
+
+/**
+ * Returns data containg resolved Modular content.
+ * @method resolveModularContentInRichText
+ * @param {object} content
+ * @param {string} categoryName
+ * @param {string} elementName
+ * @param {string} template
+ * @param {string} modularContentCodeName
+ * @return {array}
+ * @example
+ *
+ */
+Delivery.prototype.resolveModularContentInRichText = (content, categoryName, elementName, modularContentCodeName, template) => {
+  var richTextContent = '';
+
+  content[categoryName].items.forEach((item, index) => {
+    if (typeof item.elements[elementName] !== 'undefined') {
+      var $ = cheerio.load(item.elements[elementName]);
+      var $object = $('object[data-codename="' + modularContentCodeName + '"]')
+      var codename = $object.attr('data-codename');
+      var data = JSON.parse($object.next('script#' + codename).html());
+
+      var regex = /\{([^}]+)\}/gi;
+      var result = [];
+      var indices = [];
+
+      while ((result = regex.exec(template)) ) {
+        indices.push(result);
+
+        var objectProperies = result[1].split('.');
+
+        var tempData = data;
+        objectProperies.forEach((itemProperties, indexProperties) => {
+          tempData = tempData[itemProperties];
+        });
+
+
+        var resolvedString = '';
+        if (objectProperies[0] === 'elements') {
+          resolvedString = tempData.value;
+        } else {
+          resolvedString = tempData;
+        }
+
+        template = template.replace(result[0], resolvedString);
+      }
+
+      $object.next('script#' + codename).remove();
+      $object.replaceWith(template);
+      item.elements[elementName] = $.html().replace('<html><head></head><body>', '').replace('</body></html>', '');
+    }
+  });
+
+  return content;
+};
 
 module.exports = Delivery;

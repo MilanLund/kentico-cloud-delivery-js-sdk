@@ -121,7 +121,7 @@ Data of a Modular content which is part of a Rich text element is returned as a 
 
 **Parameters**
 
--   `content` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Categorized content items returned from the "categorizeContent" method.
+-   `content` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Categorized content items returned from the "categorizeContent" method.
 -   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Model that descibes values you need to get from the data provided through content parameter.
 
 **Examples**
@@ -202,3 +202,17 @@ project.getContent(['?system.type=home', '?system.type=blog_post'], false)
 ```
 
 Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns content items values that are structured according to the config parameter.
+
+### resolveModularContentInRichText
+
+Returns data containg resolved Modular content.
+
+**Parameters**
+
+-   `content` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `categoryName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `elementName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `modularContentCodeName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `template` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
