@@ -71,6 +71,8 @@ Delivery.prototype.categorizeContent = function(content, categories) {
 /**
  * Returns values from content items according to given config object.
  * Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
+ * For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a <a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
+ * Data of a Modular content which is part of a Rich text element is returned as a <script> tag with data in the JSON format inside. The <script> tag is inserted after the <object> tag which represents position of the Modular content in the default Kentico CLoud response.
  * @method getValues
  * @param {array} content Categorized content items returned from the "categorizeContent" method.
  * @param {object} config Model that descibes values you need to get from the data provided through content parameter.
@@ -214,6 +216,9 @@ Delivery.prototype.getValues = function(content, config) {
               } else if (typeof itemElement === 'string' && (item[keyElement][itemElement].type === 'multiple_choice' || item[keyElement][itemElement].type === 'taxonomy')) {
                 //Get codenames of all selected options in the multiple choice in a single array and copy them to temp object
                 tempObject[keyElement][itemElement] = helpers.getArrayValues(tempObject[keyElement][itemElement], item[keyElement][itemElement], 'codename');
+              } else if (typeof itemElement === 'string' && item[keyElement][itemElement].type === 'rich_text' && item[keyElement][itemElement].modular_content.length > 0) {
+                //Rich text can contain Modular content so get data for each modular contant in the rich text and append <script> tag that contains JSON for the modular content data
+                tempObject[keyElement][itemElement] = helpers.getRichTextModularContent(item[keyElement][itemElement], content[keyContent]['modular_content']);
               } else if (typeof itemElement === 'object' && item[keyElement][itemElement['name']].type === 'modular_content') {
                 tempObject[keyElement][itemElement['name']] = [];
 

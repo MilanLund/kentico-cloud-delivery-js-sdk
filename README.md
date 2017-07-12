@@ -1,7 +1,6 @@
 # Delivery SDK for Javascript
 
-Unofficial SDK for the Kentico Cloud Delivery API.
-Not production ready yet!
+Unofficial SDK for the Kentico Cloud Delivery API. The SDK is currently under development, is not tested well and might change without guarantee of backward compatibility.
 
 ## About
 
@@ -38,6 +37,7 @@ project.getContent(array_of_endpoint_parameters, flag_whether_you_need_preview_i
 ```
 
 Some method parameters need explanation:
+
 -   [your_project_id](#your_project_id)
 -   [your_project_preview_API_key](#your_project_preview_API_key)
 -   [array_of_endpoint_parameters](#array_of_endpoint_parameters)
@@ -116,6 +116,8 @@ Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 Returns values from content items according to given config object.
 Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
+For Rich text elements the method covers: Modular content, images and Links with value added as "Web URL". For links added as "Content item" the method returns <a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
+Data of Modular content which is part of Rich text is returned as <script> tag with data in the JSON format inside. The <script> tag is appended to the <object> tag which represents position of the Modular content in the default Kentico CLoud response.
 
 **Parameters**
 

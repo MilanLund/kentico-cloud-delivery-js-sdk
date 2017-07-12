@@ -1,6 +1,7 @@
 const request = require('request'),
       requestPromise = require('request-promise'),
-      Promise = require('bluebird');
+      Promise = require('bluebird'),
+      cheerio = require('cheerio');
 
 'use strict';
 
@@ -50,6 +51,18 @@ var helpers = {
     });
 
     return temp;
+  },
+
+  getRichTextModularContent: (data, modularContent) => {
+    var text = data.value;
+    var $ = cheerio.load(text);
+
+    data.modular_content.forEach((item, index) => {
+      $('object[data-codename="' + item + '"]').after('<script id="' + item + '">' + JSON.stringify(modularContent[item]) + '</script>');
+      text = $.html();
+    });
+
+    return text.replace('<html><head></head><body>', '').replace('</body></html>', '');
   },
 
   hasOwnProperty: Object.prototype.hasOwnProperty,
