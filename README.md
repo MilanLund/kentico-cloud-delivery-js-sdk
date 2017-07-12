@@ -116,8 +116,8 @@ Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 Returns values from content items according to given config object.
 Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
-For Rich text elements the method covers: Modular content, images and Links with value added as "Web URL". For links added as "Content item" the method returns <a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
-Data of Modular content which is part of Rich text is returned as <script> tag with data in the JSON format inside. The <script> tag is appended to the <object> tag which represents position of the Modular content in the default Kentico CLoud response.
+For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a <a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
+Data of a Modular content which is part of a Rich text element is returned as a <script> tag with data in the JSON format inside. The <script> tag is inserted after the <object> tag which represents position of the Modular content in the default Kentico CLoud response.
 
 **Parameters**
 
