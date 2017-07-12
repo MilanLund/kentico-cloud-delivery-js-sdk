@@ -14,7 +14,7 @@ All of this happens in a single Promise chain in 3 steps:
 
 1.  Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response.
 2.  Name data items for each request with use of the `categorizeContent` method so you can operate with the content easily.
-3.  Simplify the content by getting only values from the complex response.
+3.  Simplify the content by getting only values from the complex response with use of the `getValues` method.
 
 ## Installation
 
@@ -29,12 +29,12 @@ var Delivery = require('kentico-cloud-delivery-js-sdk');
 
 var project = new Delivery(your_project_id, your_project_preview_API_key);
 
-project.getContent(array_of_endpoint_parameters, flag_whether_you_need_preview_items)
+project.getContent(array_of_endpoint_parameters, flag_whether_you_need_preview_items) // Step 1
 .then(function (data) {
-  return project.categorizeContent(data, array_of_category_names);
+  return project.categorizeContent(data, array_of_category_names); // Step 2
 }).then(function (data) {
-  return project.getValues(data, object_containing_config_of_simplified_content);
-);
+  return project.getValues(data, object_containing_config_of_simplified_content); // Step 3
+}).then(console.log); // See result
 ```
 
 Some method parameters need explanation:
