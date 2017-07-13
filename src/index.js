@@ -136,7 +136,8 @@ Delivery.prototype.categorizeContent = (content, categories) => {
  * project.getContent(['?system.type=home', '?system.type=blog_post'], false)
  * .then((data) => {
  *   return project.categorizeContent(data, ['hompage', 'blog']);
- * }).then((data) => {
+ * })
+ * .then((data) => {
  *   return project.getValues(data, {
  *     homepage: {
  *       system: ['id', 'name'],
@@ -152,7 +153,7 @@ Delivery.prototype.categorizeContent = (content, categories) => {
  *       pagination: true
  *     }
  *   });
- * );
+ * });
  */
 Delivery.prototype.getValues = (content, config) => {
 
@@ -278,16 +279,30 @@ Delivery.prototype.getValues = (content, config) => {
 
 
 /**
- * Returns data containg resolved Modular content.
+ * Returns data containg resolved specified Modular content in specified Rich text element.
  * @method resolveModularContentInRichText
  * @param {object} content
  * @param {string} categoryName
  * @param {string} elementName
  * @param {string} template
  * @param {string} modularContentCodeName
- * @return {array}
+ * @return {object}
  * @example
- *
+ * project.getContent(['?system.type=home'], false)
+ * .then((data) => {
+ *   return project.categorizeContent(data, ['hompage']);
+ * })
+ * .then((data) => {
+ *   return project.getValues(data, {
+ *     homepage: {
+ *       elements: ['rich_content_with_modular_content']
+ *     }
+ *   });
+ * })
+ * .then(function (data) {
+ *   data = project.resolveModularContentInRichText(data, 'homepage', 'rich_content_with_modular_content', 'myCodeName', '<div class="foo">{elements.label}</div><span>{system.id}</span>');
+ *   return data;
+* });
  */
 Delivery.prototype.resolveModularContentInRichText = (content, categoryName, elementName, modularContentCodeName, template) => {
   var richTextContent = '';

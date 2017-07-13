@@ -15,6 +15,10 @@ All of this happens in a single Promise chain in 3 steps:
 2.  Name data items for each request with use of the `categorizeContent` method so you can operate with the content easily.
 3.  Simplify the content by getting only values from the complex response with use of the `getValues` method.
 
+Then there is a series of helper methods that help you to get ready your content to be rendered:
+
+-   `resolveModularContentInRichText` Rich text elements might contain modular content. This method resolves specified modular content item in specified rich text element according to provided template.
+
 ## Installation
 
 ```sh
@@ -182,7 +186,8 @@ Data of a Modular content which is part of a Rich text element is returned as a 
 project.getContent(['?system.type=home', '?system.type=blog_post'], false)
 .then((data) => {
   return project.categorizeContent(data, ['hompage', 'blog']);
-}).then((data) => {
+})
+.then((data) => {
   return project.getValues(data, {
     homepage: {
       system: ['id', 'name'],
@@ -198,14 +203,14 @@ project.getContent(['?system.type=home', '?system.type=blog_post'], false)
       pagination: true
     }
   });
-);
+});
 ```
 
 Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns content items values that are structured according to the config parameter.
 
 ### resolveModularContentInRichText
 
-Returns data containg resolved Modular content.
+Returns data containg resolved specified Modular content in specified Rich text element.
 
 **Parameters**
 
@@ -215,4 +220,24 @@ Returns data containg resolved Modular content.
 -   `modularContentCodeName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `template` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
+**Examples**
+
+```javascript
+project.getContent(['?system.type=home'], false)
+.then((data) => {
+  return project.categorizeContent(data, ['hompage']);
+})
+.then((data) => {
+  return project.getValues(data, {
+    homepage: {
+      elements: ['rich_content_with_modular_content']
+    }
+  });
+})
+.then(function (data) {
+  data = project.resolveModularContentInRichText(data, 'homepage', 'rich_content_with_modular_content', 'myCodeName', '<div class="foo">{elements.label}</div><span>{system.id}</span>');
+  return data;
+});
+```
+
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
