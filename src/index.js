@@ -299,7 +299,7 @@ Delivery.prototype.getValues = (content, config) => {
  *     }
  *   });
  * })
- * .then(function (data) {
+ * .then((data) => {
  *   data = project.resolveModularContentInRichText(data, 'homepage', 'rich_content_with_modular_content', 'myCodeName', '<div class="foo">{elements.label}</div><span>{system.id}</span>');
  *   return data;
 * });
