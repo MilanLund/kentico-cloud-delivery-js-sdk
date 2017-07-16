@@ -92,5 +92,5 @@ var helpers = {
     return true;
   }
 }
-3
+
 module.exports = helpers;
