@@ -1,4 +1,4 @@
-const helpers = require('./helpers');
+const helpers = require('./helper');
 
 'use strict';
 
@@ -23,29 +23,62 @@ var getValuesHelper = {
             tempObject[keyItem] = {};
 
             Object.keys(item[keyItem]).forEach((keyElement, indexElement) => {
-              if (item[keyItem][keyElement].type === 'asset') {
-                tempObject[keyItem][keyElement] = helpers.getArrayValues(tempObject[keyItem][keyElement], item[keyItem][keyElement], 'url');
-              } else if (item[keyItem][keyElement].type === 'multiple_choice' || item[keyItem][keyElement].type === 'taxonomy') {
-                tempObject[keyItem][keyElement] = helpers.getArrayValues(tempObject[keyItem][keyElement], item[keyItem][keyElement], 'codename');
-              } else if (item[keyItem][keyElement].type === 'rich_text' && item[keyItem][keyElement].modular_content.length > 0) {
-                tempObject[keyItem][keyElement] = helpers.getRichTextModularContent(item[keyItem][keyElement], content[keyContent]['modular_content']);
-              } else if (item[keyItem][keyElement].type === 'modular_content') {
-                //Modular content logic here
+              var itemType = item[keyItem][keyElement].type;
+
+              if (itemType !== 'modular_content') {
+                if (itemType === 'asset') {
+                  tempObject[keyItem][keyElement] = helpers.getArrayValues(tempObject[keyItem][keyElement], item[keyItem][keyElement], 'url');
+                } else if (itemType === 'multiple_choice' || itemType === 'taxonomy') {
+                  tempObject[keyItem][keyElement] = helpers.getArrayValues(tempObject[keyItem][keyElement], item[keyItem][keyElement], 'codename');
+                } else if (itemType === 'rich_text' && item[keyItem][keyElement].modular_content.length > 0) {
+                  tempObject[keyItem][keyElement] = helpers.getRichTextModularContent(item[keyItem][keyElement], content[keyContent]['modular_content']);
+                } else {
+                  tempObject[keyItem][keyElement] = item[keyItem][keyElement].value;
+                }
               } else {
-                tempObject[keyItem][keyElement] = item[keyItem][keyElement].value;
+                tempObject[keyItem][keyElement] = [];
+                item[keyItem][keyElement].value.forEach((itemModular, indexModular) => {
+                  var tempModularObject = {};
+
+                  Object.keys(content[keyContent]['modular_content'][itemModular]).forEach((keyModularItem, indexModularItem) => {
+
+
+                    if (keyModularItem === 'system') {
+                      tempModularObject[keyModularItem] = content[keyContent]['modular_content'][itemModular][keyModularItem];
+                    }
+
+                    if (keyModularItem === 'elements') {
+                      tempModularObject[keyModularItem] = {};
+
+                      Object.keys(content[keyContent]['modular_content'][itemModular][keyModularItem]).forEach((keyModularContentItem, indexModularContentItem) => {
+                        var itemType = content[keyContent]['modular_content'][itemModular][keyModularItem][keyModularContentItem].type;
+                        console.log(itemModular);
+
+                        if (itemType === 'asset') {
+                          tempModularObject[keyModularItem][keyModularContentItem] = helpers.getArrayValues(tempModularObject[keyModularItem][keyModularContentItem], content[keyContent]['modular_content'][itemModular][keyModularItem][keyModularContentItem], 'url');
+                        } else if (itemType === 'multiple_choice' || itemType === 'taxonomy') {
+                          tempModularObject[keyModularItem][keyModularContentItem] = helpers.getArrayValues(tempModularObject[keyModularItem][keyModularContentItem], content[keyContent]['modular_content'][itemModular][keyModularItem][keyModularContentItem], 'codename');
+                        } else {
+                          tempModularObject[keyModularItem][keyModularContentItem] = content[keyContent]['modular_content'][itemModular][keyModularItem][keyModularContentItem].value;
+                        }
+                      });
+                    }
+
+                  });
+                  tempObject[keyItem][keyElement].push(tempModularObject);
+                });
               }
             });
           }
 
         });
-
-
-        neededValues[keyContent]['items'] = tempObject;
+        neededValues[keyContent]['items'].push(tempObject);
       });
     });
 
     return neededValues;
   },
+
 
   getValuesWithConfig: (content, config) => {
     var neededValues = {};

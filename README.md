@@ -35,9 +35,9 @@ var project = new Delivery(your_project_id, your_project_preview_API_key);
 project.getContent(array_of_endpoint_parameters, flag_whether_you_need_preview_items) // Step 1
 .then((data) => {
   return project.categorizeContent(data, array_of_category_names); // Step 2
-}).then((data) => {
-  return project.getValues(data, object_containing_config_of_simplified_content); // Step 3
-}).then(console.log); // See result
+})
+.then(project.getValues)
+.then(console.log); // See result
 ```
 
 Some method parameters need explanation:
@@ -46,7 +46,6 @@ Some method parameters need explanation:
 -   [your_project_preview_API_key](#your_project_preview_API_key)
 -   [array_of_endpoint_parameters](#array_of_endpoint_parameters)
 -   [flag_whether_you_need_preview_items](#flag_whether_you_need_preview_items)
--   [object_containing_config_of_simplified_content](#object_containing_config_of_simplified_content)
 
 ### <a name="your_project_id"></a>your_project_id
 
@@ -55,8 +54,6 @@ Some method parameters need explanation:
 ### <a name="array_of_endpoint_parameters"></a>array_of_endpoint_parameters
 
 ### <a name="flag_whether_you_need_preview_items"></a>flag_whether_you_need_preview_items
-
-### <a name="object_containing_config_of_simplified_content"></a>object_containing_config_of_simplified_content
 
 # API
 
@@ -118,7 +115,7 @@ Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### getValues
 
-Returns values from content items according to given config object.
+Returns values from content items.
 Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
 For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a <a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
 Data of a Modular content which is part of a Rich text element is returned as a <script> tag with data in the JSON format inside. The <script> tag is inserted after the <object> tag which represents position of the Modular content in the default Kentico CLoud response.
@@ -126,7 +123,7 @@ Data of a Modular content which is part of a Rich text element is returned as a 
 **Parameters**
 
 -   `content` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Categorized content items returned from the "categorizeContent" method.
--   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Model that descibes values you need to get from the data provided through content parameter.
+-   `config` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Optional. Model that describes values you need to get from the data provided through content parameter. If the config parameter is not present the returned object contains the "system" object for each item and values for each property. It is recommeneded not to use the "config" parameter in most scenarions.
 
 **Examples**
 
@@ -206,11 +203,11 @@ project.getContent(['?system.type=home', '?system.type=blog_post'], false)
 });
 ```
 
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns content items values that are structured according to the config parameter.
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns structured content items values.
 
 ### resolveModularContentInRichText
 
-Returns data containg resolved specified Modular content in specified Rich text element.
+Returns data containing resolved specified Modular content in specified Rich text element.
 
 **Parameters**
 

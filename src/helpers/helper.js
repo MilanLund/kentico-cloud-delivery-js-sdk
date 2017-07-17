@@ -5,7 +5,7 @@ const request = require('request'),
 
 'use strict';
 
-var helpers = {
+var helper = {
   getRawData: (options) => {
     return Promise.map(options, (item) => {
       return requestPromise(item);
@@ -26,7 +26,7 @@ var helpers = {
     if (isPreview && previewKey !== null) {
       params.forEach((item) => {
         options.push({
-          uri: helpers.getDeliveryUrl(projectID, isPreview) + item,
+          uri: helper.getDeliveryUrl(projectID, isPreview) + item,
           json: true,
           headers: {
             Authorization: 'Bearer ' + previewKey
@@ -36,7 +36,7 @@ var helpers = {
     } else {
       params.forEach((item) => {
         options.push({
-          uri: helpers.getDeliveryUrl(projectID, isPreview) + item,
+          uri: helper.getDeliveryUrl(projectID, isPreview) + item,
           json: true
         });
       });
@@ -93,4 +93,4 @@ var helpers = {
   }
 }
 
-module.exports = helpers;
+module.exports = helper;
