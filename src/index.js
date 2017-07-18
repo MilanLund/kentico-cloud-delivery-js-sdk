@@ -24,20 +24,51 @@ class Delivery {
 
 
 /**
- * Returns promise with data specified by array of params.
+ * Returns promise with data from Kentico Cloud storage specified by params.
  * @method getContent
- * @param {array} params Filtering url parameters that are used for requesting Kentico Cloud storage. See deatils about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
+ * @param {object} params Object that contains filtering url parameters that are used for requesting Kentico Cloud storage with assigned category. See deatils about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
+ * @param {array} params Array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Data returned from this method when the params parameter is array should be categorized with use of the categorizeContent method.
  * @param {boolean} isPreview Flag that controls whether only published or all items should be requested.
- * @return {promise} Returns promise with array of responses for each passed parameter from the Kentico Cloud storage.
+ * @return {promise} Returns promise with object of responses for each passed parameter from the Kentico Cloud storage.
  * @example
- * // returns [{items: [...]}, {items: [...]}]
- * project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
+ * // returns
+ * // {
+ * //   home: {items: [...]},
+ * //   nav: {items: [...]}
+ * // }
+ * project.getContent({
+ *   home: '?system.type=homepage',
+ *   nav: '?system.type=navigation'
+ * }, true)
  */
 Delivery.prototype.getContent = function (params, isPreview) {
-  var options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview);
 
-  return Promise.map(options, (item) => {
-    return requestPromise(item);
+  if (typeof params === 'undefined') {
+    Promise.reject('Plase, specify the params parameter in the getContent method.');
+  }
+
+  var categories = [],
+      values = [];
+
+  if (helpers.isObject(params)) {
+    Object.keys(params).forEach((key, index) => {
+      categories.push(key);
+      values.push(params[key]);
+    });
+
+    params = values.slice();
+  }
+
+  if (typeof isPreview === 'undefined') {
+    isPreview = false;
+  }
+
+  var that = this,
+      options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview);
+
+  return helpers.getRawData(options)
+  .then(function (data) {
+    return that.categorizeContent(data, categories);
   });
 };
 
@@ -134,13 +165,13 @@ Delivery.prototype.categorizeContent = (content, categories) => {
  * //      next_page: '...'
  * //    }
  * // }
- * project.getContent(['?system.type=home', '?system.type=blog_post'], false)
- * .then((data) => {
- *   return project.categorizeContent(data, ['hompage', 'blog']);
+ * project.getContent({
+ *   home: '?system.type=homepage',
+ *   blog: '?system.type=blog_post'
  * })
  * .then((data) => {
  *   return project.getValues(data, {
- *     homepage: {
+ *     home: {
  *       system: ['id', 'name'],
  *       elements: ['page_title', 'header', {
  *         name: 'logos',
@@ -157,8 +188,6 @@ Delivery.prototype.categorizeContent = (content, categories) => {
  * });
  */
 Delivery.prototype.getValues = (content, config) => {
-
-  /* This is a monster method that iterates through the whole response and transforms it according to given config */
 
   if (typeof content !== 'object') {
     return Promise.reject('Content must be a categorized object.');
@@ -182,23 +211,17 @@ Delivery.prototype.getValues = (content, config) => {
  * @param {object} content
  * @param {string} categoryName
  * @param {string} elementName
- * @param {string} template
  * @param {string} modularContentCodeName
+ * @param {string} template
  * @return {object}
  * @example
- * project.getContent(['?system.type=home'], false)
- * .then((data) => {
- *   return project.categorizeContent(data, ['hompage']);
+ * project.getContent({
+ *   home: '?system.type=homepage',
+ *   blog: '?system.type=blog_post'
  * })
+ * .then(project.getValues)
  * .then((data) => {
- *   return project.getValues(data, {
- *     homepage: {
- *       elements: ['rich_content_with_modular_content']
- *     }
- *   });
- * })
- * .then((data) => {
- *   data = project.resolveModularContentInRichText(data, 'homepage', 'rich_content_with_modular_content', 'myCodeName', '<div class="foo">{elements.label}</div><span>{system.id}</span>');
+ *   data = project.resolveModularContentInRichText(data, 'home', 'rich_content_with_modular_content', 'myCodeName', '<div class="foo">{elements.label}</div><span>{system.id}</span>');
  *   return data;
 * });
  */

@@ -2,6 +2,10 @@ const helpers = require('./helper');
 
 'use strict';
 
+/* This is a monster helper that iterates through the whole response and transforms it according to given config */
+/* getValuesWithoutConfig returns values for all object properties in returned items */
+/* getValuesWithConfig returns values for object properties specified by the config parameter in returned items */
+
 var getValuesHelper = {
 
   getValuesWithoutConfig: (content) => {
@@ -42,7 +46,6 @@ var getValuesHelper = {
 
                   Object.keys(content[keyContent]['modular_content'][itemModular]).forEach((keyModularItem, indexModularItem) => {
 
-
                     if (keyModularItem === 'system') {
                       tempModularObject[keyModularItem] = content[keyContent]['modular_content'][itemModular][keyModularItem];
                     }
@@ -52,7 +55,6 @@ var getValuesHelper = {
 
                       Object.keys(content[keyContent]['modular_content'][itemModular][keyModularItem]).forEach((keyModularContentItem, indexModularContentItem) => {
                         var itemType = content[keyContent]['modular_content'][itemModular][keyModularItem][keyModularContentItem].type;
-                        console.log(itemModular);
 
                         if (itemType === 'asset') {
                           tempModularObject[keyModularItem][keyModularContentItem] = helpers.getArrayValues(tempModularObject[keyModularItem][keyModularContentItem], content[keyContent]['modular_content'][itemModular][keyModularItem][keyModularContentItem], 'url');
@@ -74,11 +76,11 @@ var getValuesHelper = {
         });
         neededValues[keyContent]['items'].push(tempObject);
       });
+      neededValues[keyContent]['pagination'] = content[keyContent]['pagination'];
     });
 
     return neededValues;
   },
-
 
   getValuesWithConfig: (content, config) => {
     var neededValues = {};

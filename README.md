@@ -12,12 +12,9 @@ The idea behind this SDK is to:
 All of this happens in a single Promise chain in 3 steps:
 
 1.  Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response.
-2.  Name data items for each request with use of the `categorizeContent` method so you can operate with the content easily.
-3.  Simplify the content by getting only values from the complex response with use of the `getValues` method.
-
-Then there is a series of helper methods that help you to get ready your content to be rendered:
-
--   `resolveModularContentInRichText` Rich text elements might contain modular content. This method resolves specified modular content item in specified rich text element according to provided template.
+2.  Simplify the content by getting only values from the complex response with use of the `getValues` method.
+3.  Process some raw values to get them ready to be rendered in a view
+    -   `resolveModularContentInRichText` Rich text elements might contain modular content. This method resolves specified modular content item in specified rich text element according to provided template.
 
 ## Installation
 
@@ -30,30 +27,24 @@ npm install kentico-cloud-delivery-js-sdk
 ```javascript
 var Delivery = require('kentico-cloud-delivery-js-sdk');
 
-var project = new Delivery(your_project_id, your_project_preview_API_key);
+// Initialize SDK with Project ID and Preview API Key
+var project = new Delivery('28f9fefa0...88bcda2cbd13', 'ew0KICAiYW...iwNCiAgInR5');
 
-project.getContent(array_of_endpoint_parameters, flag_whether_you_need_preview_items) // Step 1
-.then((data) => {
-  return project.categorizeContent(data, array_of_category_names); // Step 2
+// Step 1: Request multiple Kentico Cloud endpoints in one step and get responses categorized by the key of passing object
+project.getContent({
+  home: '?system.type=homepage',
+  nav: '?system.type=navigation'
 })
-.then(project.getValues) // Step 3
-.then(console.log); // See result
+// Step 2: Get only values from the response and join modular_content values with to appropriate data items
+.then(project.getValues)
+// Step 3: Process values to get them ready to be rendered in a view  
+.then(function (data) {
+  data = project.resolveModularContentInRichText(data, 'home', 'name_of_rich_text_field', 'codename_of_modular_item', '<div class="template">{elements.label}</div><span>{system.id}</span>');
+  return data;
+})
+// View results
+.then(console.log);
 ```
-
-Some method parameters need explanation:
-
--   [your_project_id](#your_project_id)
--   [your_project_preview_API_key](#your_project_preview_API_key)
--   [array_of_endpoint_parameters](#array_of_endpoint_parameters)
--   [flag_whether_you_need_preview_items](#flag_whether_you_need_preview_items)
-
-### <a name="your_project_id"></a>your_project_id
-
-### <a name="your_project_preview_API_key"></a>your_project_preview_API_key
-
-### <a name="array_of_endpoint_parameters"></a>array_of_endpoint_parameters
-
-### <a name="flag_whether_you_need_preview_items"></a>flag_whether_you_need_preview_items
 
 # API
 
@@ -76,21 +67,28 @@ var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53', 'ew0KICAiYWxn
 
 ### getContent
 
-Returns promise with data specified by array of params.
+Returns promise with data from Kentico Cloud storage specified by params.
 
 **Parameters**
 
--   `params` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Filtering url parameters that are used for requesting Kentico Cloud storage. See deatils about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
+-   `params` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Data returned from this method when the params parameter is array should be categorized with use of the categorizeContent method.
 -   `isPreview` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Flag that controls whether only published or all items should be requested.
 
 **Examples**
 
 ```javascript
-// returns [{items: [...]}, {items: [...]}]
-project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
+// returns
+// {
+//   home: {items: [...]},
+//   nav: {items: [...]}
+// }
+project.getContent({
+  home: '?system.type=homepage',
+  nav: '?system.type=navigation'
+}, true)
 ```
 
-Returns **[promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** Returns promise with array of responses for each passed parameter from the Kentico Cloud storage.
+Returns **[promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** Returns promise with object of responses for each passed parameter from the Kentico Cloud storage.
 
 ### categorizeContent
 
@@ -180,13 +178,13 @@ Data of a Modular content which is part of a Rich text element is returned as a 
 //      next_page: '...'
 //    }
 // }
-project.getContent(['?system.type=home', '?system.type=blog_post'], false)
-.then((data) => {
-  return project.categorizeContent(data, ['hompage', 'blog']);
+project.getContent({
+  home: '?system.type=homepage',
+  blog: '?system.type=blog_post'
 })
 .then((data) => {
   return project.getValues(data, {
-    homepage: {
+    home: {
       system: ['id', 'name'],
       elements: ['page_title', 'header', {
         name: 'logos',
@@ -211,30 +209,24 @@ Returns data containing resolved specified Modular content in specified Rich tex
 
 **Parameters**
 
--   `content` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
--   `categoryName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `elementName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `modularContentCodeName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `template` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `content` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `categoryName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `elementName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `modularContentCodeName` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `template` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 **Examples**
 
 ```javascript
-project.getContent(['?system.type=home'], false)
-.then((data) => {
-  return project.categorizeContent(data, ['hompage']);
+project.getContent({
+  home: '?system.type=homepage',
+  blog: '?system.type=blog_post'
 })
+.then(project.getValues)
 .then((data) => {
-  return project.getValues(data, {
-    homepage: {
-      elements: ['rich_content_with_modular_content']
-    }
-  });
-})
-.then((data) => {
-  data = project.resolveModularContentInRichText(data, 'homepage', 'rich_content_with_modular_content', 'myCodeName', '<div class="foo">{elements.label}</div><span>{system.id}</span>');
+  data = project.resolveModularContentInRichText(data, 'home', 'rich_content_with_modular_content', 'myCodeName', '<div class="foo">{elements.label}</div><span>{system.id}</span>');
   return data;
 });
 ```
 
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
