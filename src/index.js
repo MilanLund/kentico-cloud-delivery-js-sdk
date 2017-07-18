@@ -207,12 +207,12 @@ Delivery.prototype.getValues = (content, config) => {
 /**
  * Returns data containing resolved specified Modular content in specified Rich text element.
  * @method resolveModularContentInRichText
- * @param {object} content
- * @param {string} categoryName
- * @param {string} elementName
- * @param {string} modularContentCodeName
- * @param {string} template
- * @return {object}
+ * @param {object} content Data from the Kentico Cloud storage processed by the getValues methods.
+ * @param {string} categoryName Name of a category that has been passed the getContent of categorizeContent methods.
+ * @param {string} elementName Name of field that represents the Rich text element.
+ * @param {string} modularContentCodeName Code name of a modular item that is inside of the Rich text element.
+ * @param {string} template Template that gets rendered in the Rich text element. You can render data from the passed content with use of the macros wrapped in { }.
+ * @return {object} Returns passed content parameter with processed Rich text element.
  * @example
  * project.getContent({
  *   home: '?system.type=homepage',
