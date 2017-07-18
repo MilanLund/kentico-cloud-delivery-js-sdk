@@ -13,7 +13,7 @@ All of this happens in a single Promise chain in 3 steps:
 
 1.  Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response.
 2.  Simplify the content by getting only values from the complex response with use of the `getValues` method.
-3.  Process some raw values to get them ready to be rendered in a view
+3.  Process some raw values to get them ready to be rendered in a view:
     -   `resolveModularContentInRichText` Rich text elements might contain modular content. This method resolves specified modular content item in specified rich text element according to provided template.
 
 ## Installation
@@ -30,12 +30,12 @@ var Delivery = require('kentico-cloud-delivery-js-sdk');
 // Initialize SDK with Project ID and Preview API Key
 var project = new Delivery('28f9fefa0...88bcda2cbd13', 'ew0KICAiYW...iwNCiAgInR5');
 
-// Step 1: Request multiple Kentico Cloud endpoints in one step and get responses categorized by the key of passing object
+// Step 1: Request multiple Kentico Cloud endpoints in one step and get responses categorized by keys of the passing object
 project.getContent({
   home: '?system.type=homepage',
   nav: '?system.type=navigation'
 })
-// Step 2: Get only values from the response and join modular_content values with to appropriate data items
+// Step 2: Get only values from the response and join modular_content values with appropriate data items
 .then(project.getValues)
 // Step 3: Process values to get them ready to be rendered in a view  
 .then(function (data) {
