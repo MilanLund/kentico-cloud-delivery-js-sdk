@@ -71,7 +71,7 @@ Returns promise with data from Kentico Cloud storage specified by params.
 
 **Parameters**
 
--   `params` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Data returned from this method when the params parameter is array should be categorized with use of the categorizeContent method.
+-   `params` **([object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** Object or array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. In case array is passed the response must be processed with use of the categorizeContent method. See deatils about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
 -   `isPreview` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Flag that controls whether only published or all items should be requested.
 
 **Examples**

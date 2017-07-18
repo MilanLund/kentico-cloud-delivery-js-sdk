@@ -26,8 +26,7 @@ class Delivery {
 /**
  * Returns promise with data from Kentico Cloud storage specified by params.
  * @method getContent
- * @param {object} params Object that contains filtering url parameters that are used for requesting Kentico Cloud storage with assigned category. See deatils about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
- * @param {array} params Array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Data returned from this method when the params parameter is array should be categorized with use of the categorizeContent method.
+ * @param {(object|array)} params Object or array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. In case array is passed the response must be processed with use of the categorizeContent method. See deatils about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
  * @param {boolean} isPreview Flag that controls whether only published or all items should be requested.
  * @return {promise} Returns promise with object of responses for each passed parameter from the Kentico Cloud storage.
  * @example
