@@ -109,8 +109,8 @@ Delivery.prototype.categorizeContent = (content, categories) => {
 /**
  * Returns values from content items.
  * Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
- * For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a <a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
- * Data of a Modular content which is part of a Rich text element is returned as a <script> tag with data in the JSON format inside. The <script> tag is inserted after the <object> tag which represents position of the Modular content in the default Kentico CLoud response.
+ * For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a &lt;a&gt; tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
+ * Data of a Modular content which is part of a Rich text element is returned as a &lt;script&gt; tag with data in the JSON format inside. The &lt;script&gt; tag is inserted after the &lt;object&gt; tag which represents position of the Modular content in the default Kentico CLoud response.
  * @method getValues
  * @param {object} content Categorized content items returned from the "categorizeContent" method.
  * @param {object} config Optional. Model that describes values you need to get from the data provided through content parameter. If the config parameter is not present the returned object contains the "system" object for each item and values for each property. It is recommeneded not to use the "config" parameter in most scenarions.
