@@ -106,6 +106,16 @@ var getValuesHelper = {
             neededValues[keyContent]['pagination'] = content[keyContent].pagination;
           }
 
+          //Add system
+          if (keyElement === 'system') {
+            tempObject[keyElement] = {};
+
+            //Copy value directly to the temp object
+            config[keyContent][keyElement].forEach((itemSystem, indexSystem) => {
+              tempObject[keyElement][itemSystem] = item[keyElement][itemSystem];
+            });
+          }
+
           //Add content
           if (keyElement === 'elements') {
             tempObject[keyElement] = {};

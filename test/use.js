@@ -1,3 +1,4 @@
+/*
 var Delivery = require('../src/index');
 const util = require('util');
 
@@ -14,13 +15,34 @@ project.getContent({
   return data;
 })
 .then(function (data) {
-  console.log(util.inspect(data, false, null));
+  //console.log(util.inspect(data, false, null));
 });
-/*
-project.getContent(['?system.type=navigation'], true)
+
+project.getContent(['?system.type=automated_test', '?system.type=automated_test_item'])
 .then(function (data) {
-  return project.categorizeContent(data, ['home']);
+  //console.log(util.inspect(data, false, null));
+  return project.categorizeContent(data, ['nav', 'sad']);
 }).then(project.getValues)
+.then(function (data) {
+  //console.log(util.inspect(data, false, null));
+});
+
+project.getContent({
+  testItemsParent: '?system.type=automated_test',
+  testItems: '?system.type=automated_test_item'
+})
+.then(function (data) {
+  return project.getValues(data, {
+    testItemsParent: {
+      system: ['id'],
+      elements: ['rich_text', {
+        name: 'modular_content',
+         system: ['codename'],
+         elements: ['text']
+       }]
+     }
+   })
+})
 .then(function (data) {
   console.log(util.inspect(data, false, null));
 });*/

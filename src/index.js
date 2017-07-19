@@ -67,7 +67,11 @@ Delivery.prototype.getContent = function (params, isPreview) {
 
   return helpers.getRawData(options)
   .then(function (data) {
-    return that.categorizeContent(data, categories);
+    if (categories.length > 0) {
+      return that.categorizeContent(data, categories);
+    } else {
+      return data;
+    }
   });
 };
 
