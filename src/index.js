@@ -26,9 +26,9 @@ class Delivery {
 /**
  * Returns promise with data from Kentico Cloud storage specified by params.
  * @method getContent
- * @param {(object|array)} params Object or array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. In case array is passed the response must be processed with use of the categorizeContent method. See deatils about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
+ * @param {(object|array)} params Object or array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. In case array is passed the response must be processed with use of the categorizeContent method. See details about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
  * @param {boolean} isPreview Flag that controls whether only published or all items should be requested.
- * @return {promise} Returns promise with object of responses for each passed parameter from the Kentico Cloud storage.
+ * @return {promise} with object of responses for each passed parameter from the Kentico Cloud storage.
  * @example
  * // returns
  * // {
@@ -81,7 +81,7 @@ Delivery.prototype.getContent = function (params, isPreview) {
  * @method categorizeContent
  * @param {array} content Content items returned from the "getContent" method.
  * @param {array} categories Names of categories.
- * @return {object} Returns object where content items are property values and categories are property names oreder by their position in given arrays.
+ * @return {object} where content items are property values and categories are property names ordered by their position in given arrays.
  * @example
  * // returns {navigation: {items: [...]}, homepage: {items: [...]}}
  * project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
@@ -110,11 +110,11 @@ Delivery.prototype.categorizeContent = (content, categories) => {
  * Returns values from content items.
  * Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
  * For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a &lt;a&gt; tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
- * Data of a Modular content which is part of a Rich text element is returned as a &lt;script&gt; tag with data in the JSON format inside. The &lt;script&gt; tag is inserted after the &lt;object&gt; tag which represents position of the Modular content in the default Kentico CLoud response.
+ * Data of a Modular content which is part of a Rich text element is returned as a &lt;script&gt; tag with data in the JSON format inside. The &lt;script&gt; tag is inserted after the &lt;object&gt; tag which represents position of the Modular content in the default Kentico Cloud response.
  * @method getValues
  * @param {object} content Categorized content items returned from the "categorizeContent" method.
  * @param {object} config Optional. Model that describes values you need to get from the data provided through content parameter. If the config parameter is not present the returned object contains the "system" object for each item and values for each property. It is recommeneded not to use the "config" parameter in most scenarions.
- * @return {object} Returns structured content items values.
+ * @return {object} with structured content items values.
  * @example
  * // Returns
  * // {
@@ -216,7 +216,7 @@ Delivery.prototype.getValues = (content, config) => {
  * @param {string} elementName Name of field that represents the Rich text element.
  * @param {string} modularContentCodeName Code name of a modular item that is inside of the Rich text element.
  * @param {string} template Template that gets rendered in the Rich text element. You can render data from the passed content with use of the macros wrapped in { }.
- * @return {object} Returns passed content parameter with processed Rich text element.
+ * @return {object} content with processed Rich text element.
  * @example
  * project.getContent({
  *   home: '?system.type=homepage',

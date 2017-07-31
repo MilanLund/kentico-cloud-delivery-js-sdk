@@ -1,19 +1,21 @@
 # Delivery SDK for Javascript
 
-Unofficial SDK for the Kentico Cloud Delivery API. The SDK is currently under development, is not tested well and might change without guarantee of backward compatibility.
+## Notification
+
+This is an unofficial SDK for the Kentico Cloud Delivery API. The SDK is currently under development, it is not fully tested and might change without guarantee of backward compatibility.
 
 ## About
 
-The idea behind this SDK is to:
+The purpose of this SDK is to:
 
--   Get complete content for current view from the Kentico Cloud storage easily.
--   Simplify content in the response to be able to operate and render the content easily.
+-   Deliver complete content for a current view from the Kentico Cloud storage with ease.
+-   Simplify the output in order to make it operable for rendering.
 
 All of this happens in a single Promise chain in 3 steps:
 
 1.  Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response.
-2.  Simplify the content by getting only values from the complex response with use of the `getValues` method.
-3.  Process some raw values to get them ready to be rendered in a view:
+2.  Simplify the delivered content by getting only values from the complex response with use of the `getValues` method.
+3.  Process selected raw values to get them ready to be rendered in a view:
     -   `resolveModularContentInRichText` Rich text elements might contain modular content. This method resolves specified modular content item in specified rich text element according to provided template.
 
 ## Installation
@@ -71,7 +73,7 @@ Returns promise with data from Kentico Cloud storage specified by params.
 
 **Parameters**
 
--   `params` **([object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** Object or array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. In case array is passed the response must be processed with use of the categorizeContent method. See deatils about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
+-   `params` **([object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array))** Object or array that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. In case array is passed the response must be processed with use of the categorizeContent method. See details about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
 -   `isPreview` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Flag that controls whether only published or all items should be requested.
 
 **Examples**
@@ -88,7 +90,7 @@ project.getContent({
 }, true)
 ```
 
-Returns **[promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** Returns promise with object of responses for each passed parameter from the Kentico Cloud storage.
+Returns **[promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** with object of responses for each passed parameter from the Kentico Cloud storage.
 
 ### categorizeContent
 
@@ -109,14 +111,14 @@ project.getContent(['?system.type=navigation', '?system.type=homepage'], false)
 })
 ```
 
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns object where content items are property values and categories are property names oreder by their position in given arrays.
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** where content items are property values and categories are property names ordered by their position in given arrays.
 
 ### getValues
 
 Returns values from content items.
 Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
 For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a &lt;a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
-Data of a Modular content which is part of a Rich text element is returned as a &lt;script> tag with data in the JSON format inside. The &lt;script> tag is inserted after the &lt;object> tag which represents position of the Modular content in the default Kentico CLoud response.
+Data of a Modular content which is part of a Rich text element is returned as a &lt;script> tag with data in the JSON format inside. The &lt;script> tag is inserted after the &lt;object> tag which represents position of the Modular content in the default Kentico Cloud response.
 
 **Parameters**
 
@@ -201,7 +203,7 @@ project.getContent({
 });
 ```
 
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns structured content items values.
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** with structured content items values.
 
 ### resolveModularContentInRichText
 
@@ -229,4 +231,4 @@ project.getContent({
 });
 ```
 
-Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Returns passed content parameter with processed Rich text element.
+Returns **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** content with processed Rich text element.
