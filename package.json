@@ -1,5 +1,5 @@
 {
-  "name": "kentico-cloud-delivery-js-sdk",
+  "name": "kentico-cloud-delivery-js-sdk-symbio",
   "version": "0.0.6",
   "description": "Unofficial SDK for the Kentico Cloud Delivery API",
   "main": "src/index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MilanLund/kentico-cloud-delivery-js-sdk.git"
+    "url": "git+https://github.com/SYMBIO/kentico-cloud-delivery-js-sdk.git"
   },
   "keywords": [
     "Delivery",
@@ -17,12 +17,12 @@
     "JavaScript",
     "Vanilla"
   ],
-  "author": "Milan Lund <hello@milanlund.com> (http://www.milanlund.com)",
+  "author": "SYMBIO <dev@symbio.agency> (https://symbio.agency)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MilanLund/kentico-cloud-delivery-js-sdk/issues"
+    "url": "https://github.com/SYMBIO/kentico-cloud-delivery-js-sdk/issues"
   },
-  "homepage": "https://github.com/MilanLund/kentico-cloud-delivery-js-sdk#readme",
+  "homepage": "https://github.com/SYMBIO/kentico-cloud-delivery-js-sdk#readme",
   "dependencies": {
     "bluebird": "^3.5.0",
     "cheerio": "^1.0.0-rc.2",
