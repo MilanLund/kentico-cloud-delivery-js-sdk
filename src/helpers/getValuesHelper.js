@@ -31,7 +31,7 @@ var getValuesHelper = {
 
               if (itemType !== 'modular_content') {
                 if (itemType === 'asset') {
-                  tempObject[keyItem][keyElement] = helpers.getArrayValues(tempObject[keyItem][keyElement], item[keyItem][keyElement], 'url');
+                  tempObject[keyItem][keyElement] = item[keyItem][keyElement] && item[keyItem][keyElement].value ? item[keyItem][keyElement].value : [];
                 } else if (itemType === 'multiple_choice' || itemType === 'taxonomy') {
                   tempObject[keyItem][keyElement] = helpers.getArrayValues(tempObject[keyItem][keyElement], item[keyItem][keyElement], 'codename');
                 } else if (itemType === 'rich_text' && item[keyItem][keyElement].modular_content.length > 0) {
