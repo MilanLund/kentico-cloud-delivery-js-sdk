@@ -2,7 +2,7 @@
   "name": "kentico-cloud-delivery-js-sdk-symbio",
   "version": "1.0.1",
   "description": "Unofficial SDK for the Kentico Cloud Delivery API",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "del dist/* && babel src -d dist",
     "lint": "standard --fix 'src/*' '__tests__/*'",
