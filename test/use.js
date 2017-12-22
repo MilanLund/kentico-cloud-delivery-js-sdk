@@ -1,4 +1,4 @@
-/*
+
 var Delivery = require('../src/index');
 const util = require('util');
 
@@ -30,6 +30,9 @@ project.getContent(['?system.type=automated_test', '?system.type=automated_test_
 project.getContent({
   testItemsParent: '?system.type=automated_test',
   testItems: '?system.type=automated_test_item'
+}, false, {
+  duration: 10,
+  key: 'xxx'
 })
 .then(function (data) {
   return project.getValues(data, {
@@ -45,4 +48,4 @@ project.getContent({
 })
 .then(function (data) {
   console.log(util.inspect(data, false, null));
-});*/
+});

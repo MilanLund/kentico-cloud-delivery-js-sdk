@@ -3,7 +3,8 @@ const helpers = require('./helpers/helper'),
       request = require('request'),
       requestPromise = require('request-promise'),
       Promise = require('bluebird'),
-      cheerio = require('cheerio');
+      cheerio = require('cheerio'),
+      mcache = require('memory-cache');
 
 'use strict';
 
@@ -40,7 +41,7 @@ class Delivery {
  *   nav: '?system.type=navigation'
  * }, true)
  */
-Delivery.prototype.getContent = function (params, isPreview) {
+Delivery.prototype.getContent = function (params, isPreview, cache) {
 
   if (typeof params === 'undefined') {
     Promise.reject('Plase, specify the params parameter in the getContent method.');
@@ -65,14 +66,33 @@ Delivery.prototype.getContent = function (params, isPreview) {
   var that = this,
       options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview);
 
-  return helpers.getRawData(options)
-  .then(function (data) {
-    if (categories.length > 0) {
-      return that.categorizeContent(data, categories);
+  if (typeof cache === 'undefined') {
+    return helpers.getRawData(options)
+      .then(function (data) {
+        if (categories.length > 0) {
+          return that.categorizeContent(data, categories);
+        } else {
+          return data;
+        }
+      });
+  } else {
+    var duration = (isPreview === true ? 1 : cache.duration);
+
+    let key = '__express__' + cache.key;
+    let cachedBody = mcache.get(key);
+    if (cachedBody) {
+      return cachedBody;
     } else {
-      return data;
+      return helpers.getRawData(options)
+        .then(function (data) {
+          if (categories.length > 0) {
+            data = that.categorizeContent(data, categories);
+          }
+          mcache.put(key, data, duration * 1000);
+          return data
+        });
     }
-  });
+  }
 };
 
 
