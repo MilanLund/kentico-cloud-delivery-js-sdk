@@ -81,7 +81,7 @@ Delivery.prototype.getContent = function (params, isPreview, cache) {
     let key = '__express__' + cache.key;
     let cachedBody = mcache.get(key);
     if (cachedBody) {
-      return cachedBody;
+      return Promise.resolve(cachedBody);
     } else {
       return helpers.getRawData(options)
         .then(function (data) {
@@ -89,7 +89,7 @@ Delivery.prototype.getContent = function (params, isPreview, cache) {
             data = that.categorizeContent(data, categories);
           }
           mcache.put(key, data, duration * 1000);
-          return data
+          return data;
         });
     }
   }
