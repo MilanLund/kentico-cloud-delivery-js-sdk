@@ -5,18 +5,24 @@ const request = require('request'),
 
 'use strict';
 
-var helper = {
+const helper = {
   getRawData: (options) => {
     return Promise.map(options, (item) => {
       return requestPromise(item);
     });
   },
 
-  getDeliveryUrl: (projectID, isPreview) => {
+  getDeliveryUrl: (projectID, isPreview, param) => {
+    let suffix = '';
+
+    if (param.indexOf('?') === 0) {
+      suffix = '/items'
+    }
+
     if (isPreview) {
-      return 'https://preview-deliver.kenticocloud.com/' + projectID + '/items';
+      return 'https://preview-deliver.kenticocloud.com/' + projectID + suffix;
     } else {
-      return 'https://deliver.kenticocloud.com/' + projectID + '/items';
+      return 'https://deliver.kenticocloud.com/' + projectID + suffix;
     }
   },
 
@@ -26,7 +32,7 @@ var helper = {
     if (isPreview && previewKey !== null) {
       params.forEach((item) => {
         options.push({
-          uri: helper.getDeliveryUrl(projectID, isPreview) + item,
+          uri: helper.getDeliveryUrl(projectID, isPreview, item) + item,
           json: true,
           headers: {
             Authorization: 'Bearer ' + previewKey
@@ -36,7 +42,7 @@ var helper = {
     } else {
       params.forEach((item) => {
         options.push({
-          uri: helper.getDeliveryUrl(projectID, isPreview) + item,
+          uri: helper.getDeliveryUrl(projectID, isPreview, item) + item,
           json: true
         });
       });
@@ -95,6 +101,22 @@ var helper = {
   isObject: (val) => {
     if (val === null) { return false;}
     return ( (typeof val === 'function') || (typeof val === 'object') ) && !(val instanceof Array);
+  },
+
+  categorizeContent: (content, categories) => {
+    if (content.length !== categories.length) {
+      return Promise.reject('Number of content items and categories must be equal. Current number of content items is ' + content.length + '. Current number of categories is ' + categories.length + '.');
+    }
+
+    var categorizedContent = {};
+    content.forEach((item, index) => {
+      if (typeof categories[index] !== 'string') {
+        return Promise.reject('Category must be a string. Category that in not a string is on index ' + index + ' and has value of ' + categories[index] + '.');
+      }
+      categorizedContent[categories[index]] = item;
+    });
+
+    return categorizedContent;
   }
 }
 

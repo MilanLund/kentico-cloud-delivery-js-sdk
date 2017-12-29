@@ -20,19 +20,11 @@ describe('Delivery', function() {
   });
 
   describe('#getContent', function() {
-    it('promise should be fulfilled with passed array', function() {
-      return Promise.resolve(project.getContent(['?system.type=automated_test'])).should.eventually.fulfilled;
-    });
-
     it('promise should be fulfilled with passed object', function() {
       return Promise.resolve(project.getContent({
         testItemsParent: '?system.type=automated_test',
         testItems: '?system.type=automated_test_item'
       })).should.eventually.fulfilled;
-    });
-
-    it('should get content items with passed array and check if there is 1 item', function() {
-      return Promise.resolve(project.getContent(['?system.type=automated_test']).then(function(data) {return data[0].items})).should.eventually.have.length(1);
     });
 
     it('should get content items with passed object and check if there are 2 items', function() {
@@ -64,14 +56,6 @@ describe('Delivery', function() {
     });
   });
 
-  describe('#categorizeContent', function() {
-    it('should categorize response and check if testItemsParent.items is array', function() {
-      return Promise.resolve(project.getContent(['?system.type=automated_test', '?system.type=automated_test_item']))
-      .then(function(data) {return project.categorizeContent(data, ['testItemsParent', 'testItems']);})
-      .then(function(data) {return data.testItemsParent.items}).should.eventually.be.a('array');
-    });
-  });
-
   describe('#getValues without config', function() {
     var data = project.getValues(testObject);
 
@@ -89,43 +73,6 @@ describe('Delivery', function() {
 
     it('its elements should not have "type" or "name" keys', function() {
       expect(data.testItemsParent.items[0].elements.rich_text).to.not.have.any.keys('type', 'name');
-    });
-  });
-
-  describe('#getValues with config', function() {
-    var data = project.getValues(testObject, {
-      testItemsParent: {
-        system: ['id'],
-        elements: ['rich_text', {
-          name: 'modular_content',
-           system: ['codename'],
-           elements: ['text']
-         }]
-       }
-     });
-
-    it('its categories should have "items" key', function() {
-      expect(data.testItemsParent).to.have.all.keys('items');
-    });
-
-    it('its categories should not be "modular_content" key', function() {
-      expect(data.testItemsParent).to.not.have.all.keys('modular_content');
-    });
-
-    it('its items should have "system" and "elements" keys', function() {
-      expect(data.testItemsParent.items[0]).to.have.all.keys('system', 'elements');
-    });
-
-    it('its system should have only "id" key', function() {
-      expect(data.testItemsParent.items[0].system).to.have.all.keys('id');
-    });
-
-    it('its elements should not have "type" or "name" keys', function() {
-      expect(data.testItemsParent.items[0].elements.rich_text).to.not.have.any.keys('type', 'name');
-    });
-
-    it('its modular_content[0].system.codename should be string', function() {
-      expect(data.testItemsParent.items[0].elements.modular_content[0].system.codename).to.be.a('string');
     });
   });
 
