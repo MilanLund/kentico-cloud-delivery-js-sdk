@@ -37,10 +37,8 @@ const getValuesHelper = {
                   tempObject[keyItem][keyElement] = helpers.getArrayValues(tempObject[keyItem][keyElement], item[keyItem][keyElement], 'url');
                 } else if (itemType === 'multiple_choice' || itemType === 'taxonomy') {
                   tempObject[keyItem][keyElement] = helpers.getArrayValues(tempObject[keyItem][keyElement], item[keyItem][keyElement], 'codename');
-                } else if (itemType === 'rich_text') { 
-                  if (item[keyItem][keyElement].modular_content && item[keyItem][keyElement].modular_content.length > 0) {
-                    tempObject[keyItem][keyElement] = helpers.getRichTextModularContent(item[keyItem][keyElement], content[keyContent]['modular_content']);
-                  }
+                } else if (itemType === 'rich_text' && item[keyItem][keyElement].modular_content.length > 0) { 
+                  tempObject[keyItem][keyElement] = helpers.getRichTextModularContent(item[keyItem][keyElement], content[keyContent]['modular_content']);
                 } else {
                   tempObject[keyItem][keyElement] = item[keyItem][keyElement].value;
                 }

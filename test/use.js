@@ -2,7 +2,7 @@
 var Delivery = require('../src/index');
 const util = require('util');
 
-var project = new Delivery('28f9fefa-3686-402a-9379-88bcda2cbd13', 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAidWlkIjogInVzcl8wdk9GSTkzSDAwQUlXNkwyUlJnZUNEIiwNCiAgImVtYWlsIjogIm1pbGFuLmthY3VyYWtAZ21haWwuY29tIiwNCiAgInByb2plY3RfaWQiOiAiMjhmOWZlZmEtMzY4Ni00MDJhLTkzNzktODhiY2RhMmNiZDEzIiwNCiAgImp0aSI6ICJLLWlmeEU4QXk0RnhiWmgwIiwNCiAgInZlciI6ICIxLjAuMCIsDQogICJnaXZlbl9uYW1lIjogIk1pbGFuIiwNCiAgImZhbWlseV9uYW1lIjogIkx1bmQiLA0KICAiYXVkIjogInByZXZpZXcuZGVsaXZlci5rZW50aWNvY2xvdWQuY29tIg0KfQ.diZFTOB_3Kt7C5UIRWBj2mPXptTb-wnnpxweyypmV4o');
+var project = new Delivery('55779b69-02dc-438a-a553-dec737af7c0c', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJ1c3JfMHZVSVc5ME50UElTcTZtRkgzdmRYYiIsImVtYWlsIjoiaGVsbG9AbWlsYW5sdW5kLmNvbSIsInByb2plY3RfaWQiOiI1NTc3OWI2OS0wMmRjLTQzOGEtYTU1My1kZWM3MzdhZjdjMGMiLCJqdGkiOiJrV0VQeWZXQkRwN3VvRFg4IiwidmVyIjoiMS4wLjAiLCJnaXZlbl9uYW1lIjoiTWlsYW4iLCJmYW1pbHlfbmFtZSI6Ikx1bmQiLCJhdWQiOiJwcmV2aWV3LmRlbGl2ZXIua2VudGljb2Nsb3VkLmNvbSJ9.IpvMLQ46KfsV_avd7er5v_S3Cxa2qubJvfzLrSAAipY');
 /*
 project.getContent({
   home: '?system.type=homepage',
@@ -22,8 +22,11 @@ project.getContent({
 */
 
 project.getContent({
-  testItemsParent: '?system.type=automated_test',
-  testItems: '?system.type=automated_test_item'
+  post: '?system.type[in]=blog_post,article&elements.url_slug=vanocni-cukrovi',
+  taxonomy: '/taxonomies/blog_post',
+  /*page: '?system.codename=article',
+  navigation: '?system.sitemap_locations[contains]=navigation&elements=url,title',
+  resourceStrings: '?system.type=resource_string'*/
 }, false, {
   duration: 10,
   key: 'xxx'
