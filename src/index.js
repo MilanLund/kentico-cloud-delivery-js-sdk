@@ -86,7 +86,10 @@ class Delivery {
       } else {
         return helpers.getRawData(options)
           .then(function (data) {
-            data = helpers.categorizeContent(data, categories);
+            return helpers.categorizeContent(data, categories);
+          })
+          .then(helpers.cacheImages)
+          .then(function(data) {
             mcache.put(key, data, duration * 1000);
             return data;
           });

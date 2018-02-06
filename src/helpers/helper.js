@@ -1,7 +1,8 @@
 const request = require('request'),
       requestPromise = require('request-promise'),
       Promise = require('bluebird'),
-      cheerio = require('cheerio');
+      cheerio = require('cheerio'),
+      imageCache = require('image-cache');
 
 'use strict';
 
@@ -117,6 +118,61 @@ const helper = {
     });
 
     return categorizedContent;
+  },
+
+  iterateCacheImages: (value) => {
+    var valueElements = value['elements'];
+    Object.keys(valueElements).forEach((keyImage) => {
+      if (value.elements[keyImage].type === 'asset') {
+        value.elements[keyImage].value.forEach((valueAsset) => {
+          if(valueAsset.type.indexOf('image') > -1) {
+            imageCache.setCache(valueAsset.url, (error) => {
+              imageCache.getCache(valueAsset.url, (error, image) => {
+                valueAsset.url = image.data;
+              });
+            });
+          }
+        });
+      }
+
+      if (value.elements[keyImage].type === 'rich_text') {
+        if (Object.keys(value.elements[keyImage].images).length > 0) {
+          var regex = /<img.*?src="(.*?)"/gm,
+            images = [],
+            match;
+
+          while (match = regex.exec(value.elements[keyImage].value)) {
+            images.push(match[1]);
+          }
+          
+          images.forEach((img) => {
+            imageCache.setCache(img, (error) => {
+              imageCache.getCache(img, (error, image) => {
+                value.elements[keyImage].value = value.elements[keyImage].value.replace(img, image.data);
+              });
+            }); 
+          });
+        }     
+      }
+    });
+  },
+
+  cacheImages: (content) => {
+    Object.keys(content).forEach((key) => {
+      if(typeof content[key]['items'] !== 'undefined') {
+        content[key]['items'].forEach((value) => {
+          helper.iterateCacheImages(value);
+        });
+      }
+
+      if(typeof content[key]['modular_content'] !== 'undefined') {
+        Object.keys(content[key]['modular_content']).forEach((value) => {
+          helper.iterateCacheImages(content[key]['modular_content'][value]);
+        });
+      }
+    });
+    
+    return content;
   }
 }
 
