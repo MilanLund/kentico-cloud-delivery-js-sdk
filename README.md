@@ -16,7 +16,7 @@ The purpose of this SDK is to:
 
 -   Deliver complete content for a current view from the Kentico Cloud storage with ease.
 -   Simplify the output in order to make it operable for rendering.
--	 Cache the output in order to minimize number of API calls.
+-    Cache the output in order to minimize number of API calls.
 
 All of this happens in a single Promise chain in 3 steps:
 
@@ -90,6 +90,7 @@ Returns promise with data from Kentico Cloud storage specified by params.
 -   `params` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. See details about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
 -   `isPreview` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Flag that controls whether only published or all items should be requested.
 -   `cache` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that defines requests caching with the duration and key properties. The object has the "duration" property (number) which stands for cache invalidation interval in seconds. The "key" property (string) stands for cache key.
+-   `bypassCache` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Adds the X-KC-Wait-For-Loading-New-Content header to API calls to bypass Kentico Cloud cache to ensure latest version is returned. Suitable when using webhooks.
 
 **Examples**
 
@@ -105,7 +106,7 @@ project.getContent({
 }, true, {
   duration: 10,
   key: 'some_random_key'
-})
+}, false)
 ```
 
 Returns **[promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** with object of responses for each passed parameter from the Kentico Cloud storage.
