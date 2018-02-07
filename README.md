@@ -1,4 +1,4 @@
-# Delivery SDK for Javascript
+# Kentico Cloud Delivery SDK for Javascript
 
 ## Notification
 
