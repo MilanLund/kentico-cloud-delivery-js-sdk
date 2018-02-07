@@ -27,27 +27,26 @@ const helper = {
 		}
 	},
 
-	getFullDeliveryUrls: (params, projectID, previewKey, isPreview) => {
-		var options = [];
+	getFullDeliveryUrls: (params, projectID, previewKey, isPreview, bypassCache) => {
+		var options = [],
+			headers = {};
+
+		if (bypassCache === true) {
+			headers['X-KC-Wait-For-Loading-New-Content'] = 'true';
+		}
 
 		if (isPreview && previewKey !== null) {
-			params.forEach((item) => {
-				options.push({
-					uri: helper.getDeliveryUrl(projectID, isPreview, item) + item,
-					json: true,
-					headers: {
-						Authorization: 'Bearer ' + previewKey
-					}
-				});
-			});
-		} else {
-			params.forEach((item) => {
-				options.push({
-					uri: helper.getDeliveryUrl(projectID, isPreview, item) + item,
-					json: true
-				});
-			});
+			headers['Authorization'] = 'Bearer ' + previewKey;
 		}
+
+		params.forEach((item) => {
+			options.push({
+				uri: helper.getDeliveryUrl(projectID, isPreview, item) + item,
+				json: true,
+				headers: headers
+			});
+		});
+		
 		return options;
 	},
 

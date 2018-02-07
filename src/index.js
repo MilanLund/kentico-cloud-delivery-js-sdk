@@ -29,6 +29,7 @@ class Delivery {
 	 * @param {object} params Object that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. See details about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
 	 * @param {boolean} isPreview Flag that controls whether only published or all items should be requested.
 	 * @param {object} cache Object that defines requests caching with the duration and key properties. The object has the "duration" property (number) which stands for cache invalidation interval in seconds. The "key" property (string) stands for cache key. 
+	 * @param {boolean} bypassCache Adds the X-KC-Wait-For-Loading-New-Content header to API calls to bypass Kentico Cloud cache to ensure latest version is returned. Suitable when using webhooks.
 	 * @return {promise} with object of responses for each passed parameter from the Kentico Cloud storage.
 	 * @example
 	 * // returns
@@ -42,9 +43,9 @@ class Delivery {
 	 * }, true, {
 	 *   duration: 10,
 	 *   key: 'some_random_key'
-	  })
+	  }, false)
 	 */
-	getContent(params, isPreview, cache) {
+	getContent(params, isPreview, cache, bypassCache) {
 		if (typeof params === 'undefined') {
 			Promise.reject('Please, specify the params parameter in the getContent method.');
 		}
@@ -68,12 +69,12 @@ class Delivery {
 		}
 
 		var that = this,
-			options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview);
+			options = helpers.getFullDeliveryUrls(params, this.projectID, this.previewKey, isPreview, bypassCache);
 
 		// Request caching
-		if (typeof cache === 'undefined') {
+		if (typeof cache === 'undefined' || cache == null) {
 			return helpers.getRawData(options)
-				.then(function (data) {
+				.then((data) => {
 					return helpers.categorizeContent(data, categories);
 				});
 		} else {
@@ -85,11 +86,11 @@ class Delivery {
 				return Promise.resolve(cachedBody);
 			} else {
 				return helpers.getRawData(options)
-					.then(function (data) {
+					.then((data) => {
 						return helpers.categorizeContent(data, categories);
 					})
 					.then(helpers.cacheImages)
-					.then(function (data) {
+					.then((data) => {
 						mcache.put(key, data, duration * 1000);
 						return data;
 					});

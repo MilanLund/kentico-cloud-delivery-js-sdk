@@ -22,15 +22,12 @@ project.getContent({
 */
 
 project.getContent({
-  post: '?system.type[in]=blog_post,article&elements.url_slug=vanocni-cukrovi',
+  //post: '?system.type[in]=blog_post,article&elements.url_slug=vanocni-cukrovi',
   taxonomy: '/taxonomies/blog_post',
   /*page: '?system.codename=article',
   navigation: '?system.sitemap_locations[contains]=navigation&elements=url,title',
   resourceStrings: '?system.type=resource_string'*/
-}, false, {
-  duration: 10,
-  key: 'xxx'
-})
+}, true, null, true)
 .then(project.getValues)
 .then(function (data) {
   console.log(util.inspect(data, false, null));
