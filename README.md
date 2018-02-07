@@ -2,7 +2,7 @@
 
 ## Notification
 
-This is an unofficial SDK for the Kentico Cloud Delivery API. The SDK is currently under development, it is not fully tested and might change without guarantee of backward compatibility.
+This is an unofficial SDK for the Kentico Cloud Delivery API. The SDK is a personal project, and you are welcome to get involved in the development. It has been designed to fit websites on [Express.js](https://expressjs.com/) using the [Pug](https://pugjs.org/) template engine. However, the design may suit various scenarios and tech stacks.
 
 ### Breaking changes
 
@@ -16,10 +16,11 @@ The purpose of this SDK is to:
 
 -   Deliver complete content for a current view from the Kentico Cloud storage with ease.
 -   Simplify the output in order to make it operable for rendering.
+-	 Cache the output in order to minimize number of API calls.
 
 All of this happens in a single Promise chain in 3 steps:
 
-1.  Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response.
+1.  Get complete content by calling the `getContent` method that is able to make multiple requests and return a single response. On the server side, this method can cache responses from Kentico API endpoints requests. That also includes images which the SDK turns into the Base64 format.
 2.  Simplify the delivered content by getting only values from the complex response with use of the `getValues` method.
 3.  Process selected raw values to get them ready to be rendered in a view:
     -   `resolveModularContentInRichText` Rich text elements might contain modular content. This method resolves specified modular content item in specified rich text element according to provided template.
@@ -88,7 +89,7 @@ Returns promise with data from Kentico Cloud storage specified by params.
 
 -   `params` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. See details about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
 -   `isPreview` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Flag that controls whether only published or all items should be requested.
--   `cache` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that defines requests caching with the duration and key properties
+-   `cache` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that defines requests caching with the duration and key properties. The object has the "duration" property (number) which stands for cache invalidation interval in seconds. The "key" property (string) stands for cache key.
 
 **Examples**
 
