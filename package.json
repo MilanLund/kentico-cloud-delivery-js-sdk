@@ -32,13 +32,13 @@
     "request-promise": "^4.2.1"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.2.6",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "eslint-plugin-react": "^7.1.0",
     "gulp": "^3.9.1",
-    "gulp-eslint": "^4.0.0",
-    "mocha": "^3.4.2",
-    "util": "^0.10.3"
+    "gulp-eslint": "^5.0.0",
+    "mocha": "^5.2.0",
+    "util": "^0.11.0"
   }
 }
