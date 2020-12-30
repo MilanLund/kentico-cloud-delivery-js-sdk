@@ -1,8 +1,9 @@
-# Kentico Cloud Delivery SDK for Javascript
+# Kentico Kontent Delivery SDK for Javascript
 
 ## Notification
 
-This is an unofficial SDK for the Kentico Cloud Delivery API. The SDK is a personal project, and you are welcome to get involved in the development. It has been designed to fit websites on [Express.js](https://expressjs.com/) using the [Pug](https://pugjs.org/) template engine. However, the design may suit various scenarios and tech stacks.
+This is an unofficial SDK for the Kentico Kontent Delivery API. The SDK is a personal project, and was created before Kentico introduced official javascript SDK for Kentico Kontent. That being said, I highly recommend using the [official SDK](https://github.com/Kentico/kontent-delivery-sdk-js) instead of this one as Kentico gives it love and care on a regular basis. Therefore, this project is considered obsolete.   
+It has been designed to fit websites on [Express.js](https://expressjs.com/) using the [Pug](https://pugjs.org/) template engine. However, the design may suit various scenarios and tech stacks.
 
 ### Breaking changes
 
@@ -14,7 +15,7 @@ This is an unofficial SDK for the Kentico Cloud Delivery API. The SDK is a perso
 
 The purpose of this SDK is to:
 
--   Deliver complete content for a current view from the Kentico Cloud storage with ease.
+-   Deliver complete content for a current view from the Kentico Kontent storage with ease.
 -   Simplify the output in order to make it operable for rendering.
 -    Cache the output in order to minimize number of API calls.
 
@@ -39,7 +40,7 @@ var Delivery = require('kentico-cloud-delivery-js-sdk');
 // Initialize SDK with Project ID and Preview API Key
 var project = new Delivery('28f9fefa0...88bcda2cbd13', 'ew0KICAiYW...iwNCiAgInR5');
 
-// Step 1: Request multiple Kentico Cloud endpoints in one step and get responses categorized by keys of the passing object
+// Step 1: Request multiple Kentico Kontent endpoints in one step and get responses categorized by keys of the passing object
 project.getContent({
   home: '?system.type=homepage',
   nav: '?system.type=navigation'
@@ -68,12 +69,12 @@ project.getContent({
 
 ## Delivery
 
-Initilizes object with its Project ID and Preview API Key that represents a Kentico Cloud project.
+Initilizes object with its Project ID and Preview API Key that represents a Kentico Kontent project.
 
 **Parameters**
 
--   `projectID` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Project ID, see details in the Kentico Cloud Developers Hub: <https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id>.
--   `previewKey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Preview API Key, see details in the Kentico Cloud Developers Hub: <https://developer.kenticocloud.com/docs/preview-content-via-api>.
+-   `projectID` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Project ID, see details in the Kentico Kontent Developers Hub: <https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id>.
+-   `previewKey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Preview API Key, see details in the Kentico Kontent Developers Hub: <https://developer.kenticocloud.com/docs/preview-content-via-api>.
 
 **Examples**
 
@@ -83,14 +84,14 @@ var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53', 'ew0KICAiYWxn
 
 ## getContent
 
-Returns promise with data from Kentico Cloud storage specified by params.
+Returns promise with data from Kentico Kontent storage specified by params.
 
 **Parameters**
 
--   `params` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. See details about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
+-   `params` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that contains filtering url parameters that are used for requesting Kentico Kontent storage. Object properties are names for categories. See details about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
 -   `isPreview` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Flag that controls whether only published or all items should be requested.
 -   `cache` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that defines requests caching with the duration and key properties. The object has the "duration" property (number) which stands for cache invalidation interval in seconds. The "key" property (string) stands for cache key.
--   `bypassCache` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Adds the X-KC-Wait-For-Loading-New-Content header to API calls to bypass Kentico Cloud cache to ensure latest version is returned. Suitable when using webhooks.
+-   `bypassCache` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Adds the X-KC-Wait-For-Loading-New-Content header to API calls to bypass Kentico Kontent cache to ensure latest version is returned. Suitable when using webhooks.
 
 **Examples**
 
@@ -109,14 +110,14 @@ project.getContent({
 }, false)
 ```
 
-Returns **[promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** with object of responses for each passed parameter from the Kentico Cloud storage.
+Returns **[promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** with object of responses for each passed parameter from the Kentico Kontent storage.
 
 ## getValues
 
 Returns values from content items.
 Covers content types: Text, Rich text, Number, Multiple choice, Date & time, Asset, Modular content, URL slug, Taxonomy and supports localization.
-For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a &lt;a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Cloud response.
-Data of a Modular content which is part of a Rich text element is returned as a &lt;script> tag with data in the JSON format inside. The &lt;script> tag is inserted after the &lt;object> tag which represents position of the Modular content in the default Kentico Cloud response.
+For Rich text elements the method covers: Modular content, images and links with value added as "Web URL". For links added as "Content item" the method returns a &lt;a> tag with empty "href" attribute as it is not possible to identify full url from the Kentico Kontent response.
+Data of a Modular content which is part of a Rich text element is returned as a &lt;script> tag with data in the JSON format inside. The &lt;script> tag is inserted after the &lt;object> tag which represents position of the Modular content in the default Kentico Kontent response.
 
 **Parameters**
 
@@ -199,7 +200,7 @@ Returns data containing resolved specified Modular content in specified Rich tex
 
 **Parameters**
 
--   `content` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Data from the Kentico Cloud storage processed by the getValues methods.
+-   `content` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Data from the Kentico Kontent storage processed by the getValues methods.
 -   `categoryName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of a category that has been passed the getContent of categorizeContent methods.
 -   `elementName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of field that represents the Rich text element.
 -   `modularContentCodeName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Code name of a modular item that is inside of the Rich text element.
