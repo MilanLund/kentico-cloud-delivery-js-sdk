@@ -1,7 +1,7 @@
 {
   "name": "kentico-cloud-delivery-js-sdk",
-  "version": "0.0.14",
-  "description": "Unofficial SDK for the Kentico Cloud Delivery API",
+  "version": "0.0.15",
+  "description": "Unofficial SDK for the Kontent.ai Delivery API",
   "main": "src/index.js",
   "scripts": {
     "test": "mocha"
@@ -25,7 +25,7 @@
   "homepage": "https://github.com/MilanLund/kentico-cloud-delivery-js-sdk#readme",
   "dependencies": {
     "bluebird": "^3.5.0",
-    "cheerio": "^1.0.0-rc.2",
+    "cheerio": "^1.0.0-rc.12",
     "image-cache": "^1.0.1",
     "memory-cache": "^0.2.0",
     "request": "^2.81.0",

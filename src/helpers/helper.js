@@ -21,9 +21,9 @@ const helper = {
 		}
 
 		if (isPreview) {
-			return 'https://preview-deliver.kenticocloud.com/' + projectID + suffix;
+			return 'https://preview-deliver.kontent.ai/' + projectID + suffix;
 		} else {
-			return 'https://deliver.kenticocloud.com/' + projectID + suffix;
+			return 'https://deliver.kontent.ai/' + projectID + suffix;
 		}
 	},
 

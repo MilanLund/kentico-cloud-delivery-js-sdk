@@ -23,12 +23,12 @@ var testObject = {
                         ekl0: {
                             image_id: 'ekl0',
                             description: null,
-                            url: 'https://assets.kenticocloud.com:443/28f9fefa-3686-402a-9379-88bcda2cbd13/1c5cc7f2-526f-42e5-965c-bd3853c0bd52/svatebni-2.jpg'
+                            url: 'https://assets.kontent.ai:443/28f9fefa-3686-402a-9379-88bcda2cbd13/1c5cc7f2-526f-42e5-965c-bd3853c0bd52/svatebni-2.jpg'
                         }
                     },
                     links: {},
                     modular_content: ['rich_text_modular_item'],
-                    value: '<h1>Class aptent</h1>\n<p>&nbsp;Taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.&nbsp;</p>\n<figure data-image-id="ekl0"><img src="https://assets.kenticocloud.com:443/28f9fefa-3686-402a-9379-88bcda2cbd13/1c5cc7f2-526f-42e5-965c-bd3853c0bd52/svatebni-2.jpg" alt="" data-image-id="ekl0"></figure>\n<p>Mauris dolor felis, sagittis at, luctus sed, aliquam non, tellus. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim.</p>\n<object type="application/kenticocloud" data-type="item" data-codename="rich_text_modular_item"></object>'
+                    value: '<h1>Class aptent</h1>\n<p>&nbsp;Taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.&nbsp;</p>\n<figure data-image-id="ekl0"><img src="https://assets.kontent.ai:443/28f9fefa-3686-402a-9379-88bcda2cbd13/1c5cc7f2-526f-42e5-965c-bd3853c0bd52/svatebni-2.jpg" alt="" data-image-id="ekl0"></figure>\n<p>Mauris dolor felis, sagittis at, luctus sed, aliquam non, tellus. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Nullam sapien sem, ornare ac, nonummy non, lobortis a enim.</p>\n<object type="application/kenticocloud" data-type="item" data-codename="rich_text_modular_item"></object>'
                 },
                 number: {
                     type: 'number',
@@ -56,21 +56,21 @@ var testObject = {
                             type: 'image/jpeg',
                             size: 63117,
                             description: null,
-                            url: 'https://assets.kenticocloud.com:443/28f9fefa-3686-402a-9379-88bcda2cbd13/802251de-f9c9-4182-b917-aeb4c9489119/svatebni-1.jpg'
+                            url: 'https://assets.kontent.ai:443/28f9fefa-3686-402a-9379-88bcda2cbd13/802251de-f9c9-4182-b917-aeb4c9489119/svatebni-1.jpg'
                         },
                         {
                             name: 'svatebni-3.jpg',
                             type: 'image/jpeg',
                             size: 43659,
                             description: null,
-                            url: 'https://assets.kenticocloud.com:443/28f9fefa-3686-402a-9379-88bcda2cbd13/b2f9f1ec-89da-4446-b918-72719d6bcbee/svatebni-3.jpg'
+                            url: 'https://assets.kontent.ai:443/28f9fefa-3686-402a-9379-88bcda2cbd13/b2f9f1ec-89da-4446-b918-72719d6bcbee/svatebni-3.jpg'
                         },
                         {
                             name: 'svatebni-2.jpg',
                             type: 'image/jpeg',
                             size: 44770,
                             description: null,
-                            url: 'https://assets.kenticocloud.com:443/28f9fefa-3686-402a-9379-88bcda2cbd13/ae91a070-f165-4e6f-9e21-2e57514a38d7/svatebni-2.jpg'
+                            url: 'https://assets.kontent.ai:443/28f9fefa-3686-402a-9379-88bcda2cbd13/ae91a070-f165-4e6f-9e21-2e57514a38d7/svatebni-2.jpg'
                         }
                     ]
                 },

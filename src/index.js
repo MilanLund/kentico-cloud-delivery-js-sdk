@@ -11,8 +11,8 @@ const helpers = require('./helpers/helper'),
 /**
  * Initilizes object with its Project ID and Preview API Key that represents a Kentico Cloud project.
  * @constructor Delivery
- * @param {string} projectID Project ID, see details in the Kentico Cloud Developers Hub: https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id.
- * @param {string} previewKey Preview API Key, see details in the Kentico Cloud Developers Hub: https://developer.kenticocloud.com/docs/preview-content-via-api.
+ * @param {string} projectID Project ID, see details in the Kentico Cloud Developers Hub: https://developer.kontent.ai/docs/using-delivery-api#section-getting-project-id.
+ * @param {string} previewKey Preview API Key, see details in the Kentico Cloud Developers Hub: https://developer.kontent.ai/docs/preview-content-via-api.
  * @example
  * var project = new Delivery('82594550-e25c-8219-aee9-677f600bad53', 'ew0KICAiYWxnIjo...QvV8puicXQ');
  */
@@ -26,7 +26,7 @@ class Delivery {
 	/**
 	 * Returns promise with data from Kentico Cloud storage specified by params.
 	 * @method getContent
-	 * @param {object} params Object that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. See details about filtering url parameters: https://developer.kenticocloud.com/v1/reference#delivery-api
+	 * @param {object} params Object that contains filtering url parameters that are used for requesting Kentico Cloud storage. Object properties are names for categories. See details about filtering url parameters: https://developer.kontent.ai/v1/reference#delivery-api
 	 * @param {boolean} isPreview Flag that controls whether only published or all items should be requested.
 	 * @param {object} cache Object that defines requests caching with the duration and key properties. The object has the "duration" property (number) which stands for cache invalidation interval in seconds. The "key" property (string) stands for cache key. 
 	 * @param {boolean} bypassCache Adds the X-KC-Wait-For-Loading-New-Content header to API calls to bypass Kentico Cloud cache to ensure latest version is returned. Suitable when using webhooks.

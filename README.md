@@ -73,8 +73,8 @@ Initilizes object with its Project ID and Preview API Key that represents a Kent
 
 **Parameters**
 
--   `projectID` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Project ID, see details in the Kentico Kontent Developers Hub: <https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id>.
--   `previewKey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Preview API Key, see details in the Kentico Kontent Developers Hub: <https://developer.kenticocloud.com/docs/preview-content-via-api>.
+-   `projectID` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Project ID, see details in the Kentico Kontent Developers Hub: <https://developer.kontent.ai/docs/using-delivery-api#section-getting-project-id>.
+-   `previewKey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Preview API Key, see details in the Kentico Kontent Developers Hub: <https://developer.kontent.ai/docs/preview-content-via-api>.
 
 **Examples**
 
@@ -88,7 +88,7 @@ Returns promise with data from Kentico Kontent storage specified by params.
 
 **Parameters**
 
--   `params` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that contains filtering url parameters that are used for requesting Kentico Kontent storage. Object properties are names for categories. See details about filtering url parameters: <https://developer.kenticocloud.com/v1/reference#delivery-api>
+-   `params` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that contains filtering url parameters that are used for requesting Kentico Kontent storage. Object properties are names for categories. See details about filtering url parameters: <https://developer.kontent.ai/v1/reference#delivery-api>
 -   `isPreview` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Flag that controls whether only published or all items should be requested.
 -   `cache` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object that defines requests caching with the duration and key properties. The object has the "duration" property (number) which stands for cache invalidation interval in seconds. The "key" property (string) stands for cache key.
 -   `bypassCache` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Adds the X-KC-Wait-For-Loading-New-Content header to API calls to bypass Kentico Kontent cache to ensure latest version is returned. Suitable when using webhooks.
